@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hakita — Hak dan Kewajiban Kita</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cinzel Decorative, Cormorant Garamond, and Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        forest: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                            brand: '#234e38',
+                            hover: '#1b3d2c'
+                        },
+                        slateBlue: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            brand: '#214963',
+                            hover: '#18364b'
+                        },
+                        earth: {
+                            taupe: '#726757',
+                            sand: '#ede6da',
+                            amber: '#926a27',
+                            parchment: '#faf7f0',
+                            border: '#ded7c8',
+                            borderDark: '#2c3830'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['"Cinzel Decorative"', 'serif'],
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --ink-main: #18221b;
+            --ink-muted: #5e6860;
+            --accent-green: #234e38;
+            --accent-blue: #214963;
+        }
+
+        body {
+            color: var(--ink-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            background-color: #eaf0eb;
+            transition: color 0.3s ease;
+        }
+
+        .dark body {
+            color: #f0f5f1;
+            background-color: #0d1310;
+        }
+
+        /* Fixed scenic blurred background layer (from background.jpg) */
+        #bg-canvas-wrapper {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        #bg-canvas-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: blur(10px);
+            transform: scale(1.06);
+            transition: filter 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Light mode soft frosted veil */
+        .bg-canvas-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(250, 247, 240, 0.76);
+            backdrop-filter: blur(2px);
+            transition: background-color 0.4s ease;
+        }
+
+        /* Dark mode: deeply dimmed nocturnal landscape (NOT pitch black, but atmospheric dark hills) */
+        .dark .bg-canvas-overlay {
+            background-color: rgba(13, 20, 16, 0.88);
+        }
+
+        /* Explicit Dark Mode Header & Nav rules (prevents header from staying white in darkmode) */
+        html.dark header,
+        html.dark .nav-header-bar {
+            background-color: rgba(18, 27, 22, 0.96) !important;
+            border-color: rgba(44, 62, 50, 0.85) !important;
+            color: #f0f5f1 !important;
+        }
+
+        html.dark .top-metadata-bar {
+            background-color: rgba(14, 22, 17, 0.96) !important;
+            border-color: rgba(35, 51, 41, 0.8) !important;
+            color: #9ab3a1 !important;
+        }
+
+        html.dark #mobile-menu {
+            background-color: rgba(18, 27, 22, 0.98) !important;
+            border-color: rgba(44, 62, 50, 0.85) !important;
+        }
+
+        /* Floating Cards on top of scenic background */
+        .floating-card {
+            background-color: rgba(253, 251, 247, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(222, 215, 200, 0.85);
+            box-shadow: 0 16px 36px -8px rgba(24, 34, 27, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+            border-radius: 1.5rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .floating-card:hover {
+            box-shadow: 0 20px 42px -8px rgba(24, 34, 27, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+        }
+        .dark .floating-card {
+            background-color: rgba(21, 31, 25, 0.86);
+            border-color: rgba(45, 66, 53, 0.75);
+            box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+        }
+        .dark .floating-card:hover {
+            box-shadow: 0 20px 42px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+        }
+
+        /* Scalloped Lace Crochet Doily Frame */
+        .lace-doily-frame {
+            position: relative;
+            background-color: #f6f0e4;
+            padding: 16px;
+            border-radius: 24px;
+            border: 2px dashed #b8c7bc;
+            box-shadow: 
+                0 0 0 6px #faf6ee,
+                0 0 0 10px #cad6ce,
+                0 0 0 14px #faf6ee,
+                0 18px 40px -10px rgba(35, 78, 56, 0.18);
+        }
+        .dark .lace-doily-frame {
+            background-color: #1a251e;
+            border-color: #3d5445;
+            box-shadow: 
+                0 0 0 6px #131c17,
+                0 0 0 10px #2a3d31,
+                0 0 0 14px #131c17,
+                0 18px 40px -10px rgba(0, 0, 0, 0.55);
+        }
+
+        /* Character Animations */
+        @keyframes gentle-breath {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-4px) scale(1.018); }
+        }
+        @keyframes clover-sway {
+            0%, 100% { transform: rotate(-4deg); }
+            50% { transform: rotate(5deg); }
+        }
+        @keyframes aura-pulse-green {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(35, 78, 56, 0.25), 0 12px 28px -5px rgba(0,0,0,0.12); }
+            50% { box-shadow: 0 0 0 10px rgba(35, 78, 56, 0.08), 0 15px 32px -5px rgba(0,0,0,0.18); }
+        }
+        @keyframes eye-glint {
+            0%, 100% { opacity: 0.95; transform: scale(1); }
+            50% { opacity: 0.55; transform: scale(0.85); }
+        }
+
+        .char-breathe {
+            animation: gentle-breath 4.2s ease-in-out infinite;
+        }
+        .char-sway {
+            animation: clover-sway 3.4s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
+        .char-aura-green {
+            animation: aura-pulse-green 3.8s ease-in-out infinite;
+        }
+        .twinkle-glint {
+            animation: eye-glint 2.6s ease-in-out infinite;
+        }
+
+        /* Speech Bubble */
+        .speech-bubble-green {
+            position: relative;
+        }
+        .speech-bubble-green::before {
+            content: '';
+            position: absolute;
+            left: -14px;
+            top: 28px;
+            border-width: 8px 14px 8px 0;
+            border-style: solid;
+            border-color: transparent #fcfaf6 transparent transparent;
+        }
+        .dark .speech-bubble-green::before {
+            border-color: transparent #1a251e transparent transparent;
+        }
+        @media (max-width: 640px) {
+            .speech-bubble-green::before {
+                left: 28px;
+                top: -14px;
+                border-width: 0 8px 14px 8px;
+                border-color: transparent transparent #fcfaf6 transparent;
+            }
+            .dark .speech-bubble-green::before {
+                border-color: transparent transparent #1a251e transparent;
+            }
+        }
+
+        /* Sticky Note Card styling */
+        .sticky-note-card {
+            box-shadow: 2px 8px 18px rgba(30, 45, 36, 0.09);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .sticky-note-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 4px 16px 30px rgba(30, 45, 36, 0.18);
+        }
+
+        /* Dove flight effect */
+        .dove-soar {
+            transition: transform 0.5s ease;
+        }
+        .dove-soar:hover {
+            transform: translate(6px, -4px) scale(1.05);
+        }
+    </style>
+</head>
+<body class="selection:bg-emerald-200 selection:text-emerald-900 dark:selection:bg-emerald-900 dark:selection:text-emerald-100 flex flex-col min-h-screen">
+
+    <!-- ================= FIXED SCENIC BACKGROUND (FROM background.jpg) ================= -->
+    <div id="bg-canvas-wrapper">
+        <img src="background.jpg" alt="Lanskap Perbukitan Hijau Hakita" id="bg-canvas-image">
+        <div class="bg-canvas-overlay"></div>
+    </div>
+
+    <!-- ================= FULL-WIDTH EDITORIAL TOP METADATA BAR ================= -->
+    <div class="w-full top-metadata-bar bg-[#f4eee2]/90 backdrop-blur-md border-b border-[#ded7c8] px-4 sm:px-8 py-2 text-[11px] sm:text-xs text-[#5f6860] font-medium tracking-wider z-50 transition-colors">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-[#234e38] dark:text-emerald-400 uppercase tracking-widest font-serif">Digital-vitrina</span>
+                <span class="text-[#96a89c]">•</span>
+                <span class="tracking-widest uppercase">Projek Pendidikan Pancasila</span>
+            </div>
+            <div class="flex items-center space-x-4 mt-0.5 sm:mt-0">
+                <span>SMA Katolik St. Louis 1 Surabaya</span>
+                <span class="text-[#96a89c]">•</span>
+                <span class="italic font-serif">Arsip Edukasi 2026 г.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= FULL-WIDTH FLOATING NAVIGATION HEADER ================= -->
+    <header class="sticky top-0 z-50 w-full nav-header-bar bg-[#faf7f0]/90 backdrop-blur-md border-b border-[#ded7c8]/80 px-4 sm:px-8 py-3 transition-colors shadow-sm">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            
+            <!-- Logo & Brand Title -->
+            <div class="flex items-center space-x-3 cursor-pointer group" onclick="switchPage('home')">
+                <div class="w-10 h-10 rounded-full bg-[#234e38] dark:bg-emerald-700 text-[#faf7f0] flex items-center justify-center font-display font-bold text-xl shadow border border-emerald-900/30 group-hover:scale-105 transition-transform">
+                    H
+                </div>
+                <div>
+                    <span class="font-display font-bold text-xl sm:text-2xl tracking-wider text-[#18221b] dark:text-[#f0f5f1] block leading-tight">HAKITA</span>
+                    <span class="text-[9px] tracking-widest text-[#5e6860] dark:text-[#8ea394] uppercase font-semibold">Hak & Kewajiban Kita</span>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation Links (Pill Style) -->
+            <nav class="hidden lg:flex items-center space-x-1 sm:space-x-1.5 text-xs font-medium tracking-wide">
+                <button onclick="switchPage('home')" id="nav-home" class="nav-link px-3.5 py-1.5 rounded-full text-[#234e38] font-bold bg-[#234e38]/10 dark:text-emerald-400 dark:bg-emerald-500/15 transition">Beranda</button>
+                <button onclick="switchPage('edukasi')" id="nav-edukasi" class="nav-link px-3.5 py-1.5 rounded-full text-[#5e6860] dark:text-[#a0b5a6] hover:text-[#234e38] dark:hover:text-[#f0f5f1] hover:bg-[#234e38]/5 dark:hover:bg-[#1e2c22] transition">Edukasi & Hukum</button>
+                <button onclick="switchPage('panduan')" id="nav-panduan" class="nav-link px-3.5 py-1.5 rounded-full text-[#5e6860] dark:text-[#a0b5a6] hover:text-[#234e38] dark:hover:text-[#f0f5f1] hover:bg-[#234e38]/5 dark:hover:bg-[#1e2c22] transition">Panduan Bertindak</button>
+                <button onclick="switchPage('lapor')" id="nav-lapor" class="nav-link px-3.5 py-1.5 rounded-full text-[#5e6860] dark:text-[#a0b5a6] hover:text-[#234e38] dark:hover:text-[#f0f5f1] hover:bg-[#234e38]/5 dark:hover:bg-[#1e2c22] transition">Prosedur Melapor</button>
+                <button onclick="switchPage('simulator')" id="nav-simulator" class="nav-link px-3.5 py-1.5 rounded-full text-[#5e6860] dark:text-[#a0b5a6] hover:text-[#234e38] dark:hover:text-[#f0f5f1] hover:bg-[#234e38]/5 dark:hover:bg-[#1e2c22] transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-clover text-[#234e38] dark:text-emerald-400 text-xs"></i> SafeZone Simulator
+                </button>
+                <button onclick="switchPage('wall')" id="nav-wall" class="nav-link px-3.5 py-1.5 rounded-full text-[#5e6860] dark:text-[#a0b5a6] hover:text-[#234e38] dark:hover:text-[#f0f5f1] hover:bg-[#234e38]/5 dark:hover:bg-[#1e2c22] transition">Wall of Support</button>
+                <button onclick="switchPage('tentang')" id="nav-tentang" class="nav-link px-3.5 py-1.5 rounded-full text-[#5e6860] dark:text-[#a0b5a6] hover:text-[#234e38] dark:hover:text-[#f0f5f1] hover:bg-[#234e38]/5 dark:hover:bg-[#1e2c22] transition">Tentang Kami</button>
+            </nav>
+
+            <!-- Action Controls: Dark mode toggle & High Contrast Hotline Pill -->
+            <div class="flex items-center space-x-2.5">
+                <!-- Dark Mode Toggle Button -->
+                <button onclick="toggleDarkMode()" id="dark-mode-toggle" class="w-9 h-9 rounded-full bg-[#eae3d5] dark:bg-[#1c2921] text-[#5e6860] dark:text-emerald-300 hover:text-[#234e38] flex items-center justify-center transition border border-[#d2c9b6] dark:border-[#2f4236]" title="Ubah Mode Gelap/Terang">
+                    <i class="fa-solid fa-moon text-sm" id="dark-mode-icon"></i>
+                </button>
+
+                <!-- Hotline Capsule Button -->
+                <button onclick="switchPage('lapor')" class="hidden sm:inline-flex items-center px-4 py-2 bg-[#214963] dark:bg-emerald-700 text-[#faf7f0] text-xs font-bold rounded-full shadow hover:bg-[#18364b] dark:hover:bg-emerald-600 transition tracking-wide">
+                    <i class="fa-solid fa-phone mr-1.5 text-[10px]"></i> Bantuan 129
+                </button>
+
+                <!-- Mobile Menu Hamburger -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden w-9 h-9 rounded-full bg-[#eae3d5] dark:bg-[#1c2921] text-[#18221b] dark:text-[#f0f5f1] flex items-center justify-center border border-[#d2c9b6] dark:border-[#2f4236]">
+                    <i class="fa-solid fa-bars text-sm" id="mobile-menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden pt-3 pb-2 space-y-1 text-sm border-t border-[#ded7c8] dark:border-[#2c3d31] mt-3">
+            <button onclick="switchPage('home'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg font-medium text-[#18221b] dark:text-[#f0f5f1] hover:bg-[#e4dcce] dark:hover:bg-[#1e2c22]">Beranda</button>
+            <button onclick="switchPage('edukasi'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg font-medium text-[#18221b] dark:text-[#f0f5f1] hover:bg-[#e4dcce] dark:hover:bg-[#1e2c22]">Edukasi & Hukum</button>
+            <button onclick="switchPage('panduan'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg font-medium text-[#18221b] dark:text-[#f0f5f1] hover:bg-[#e4dcce] dark:hover:bg-[#1e2c22]">Panduan Bertindak</button>
+            <button onclick="switchPage('lapor'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg font-medium text-[#18221b] dark:text-[#f0f5f1] hover:bg-[#e4dcce] dark:hover:bg-[#1e2c22]">Prosedur Melapor</button>
+            <button onclick="switchPage('simulator'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg font-medium text-[#18221b] dark:text-[#f0f5f1] hover:bg-[#e4dcce] dark:hover:bg-[#1e2c22]">SafeZone Simulator</button>
+            <button onclick="switchPage('wall'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg font-medium text-[#18221b] dark:text-[#f0f5f1] hover:bg-[#e4dcce] dark:hover:bg-[#1e2c22]">Wall of Support</button>
+            <button onclick="switchPage('tentang'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg font-medium text-[#18221b] dark:text-[#f0f5f1] hover:bg-[#e4dcce] dark:hover:bg-[#1e2c22]">Tentang Kami</button>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT (DYNAMIC FULLSCREEN & FLOATING CARDS) ================= -->
+    <main class="flex-grow space-y-16 sm:space-y-24 pb-20">
+
+        <!-- ================= PAGE 1: HOME (EXPANSIVE & BREATHING LAYOUT) ================= -->
+        <div id="page-home" class="page-section space-y-16 sm:space-y-24">
+            
+            <!-- SECTION 1: FULLSCREEN HERO BANNER DIRECTLY OVER SCENIC HILLS -->
+            <section class="w-full py-12 sm:py-20 px-4 sm:px-8">
+                <div class="max-w-7xl mx-auto space-y-12">
+                    
+                    <!-- Grand Stylized Title Banner -->
+                    <div class="text-center relative space-y-3">
+                        <div class="flex items-center justify-between text-xs sm:text-sm text-[#5e6860] dark:text-[#9bb2a2] font-serif border-b border-[#d8d0bf] dark:border-[#2f4236] pb-2 max-w-4xl mx-auto">
+                            <span class="tracking-wider italic">Helena Jonathan & Jolyne Lee (XIIC2)</span>
+                            <span class="tracking-widest uppercase font-semibold text-[10px] text-[#234e38] dark:text-emerald-400">Arsip Pendidikan Pancasila</span>
+                            <span class="tracking-wider italic">2026 г.</span>
+                        </div>
+                        
+                        <h1 class="font-display font-bold text-5xl sm:text-7xl md:text-8xl tracking-widest text-[#18221b] dark:text-[#f0f5f1] pt-2 uppercase">
+                            HAKITA
+                        </h1>
+                        <p class="font-serif italic text-lg sm:text-2xl text-[#4a584f] dark:text-[#b4c9bb] tracking-wide max-w-2xl mx-auto">
+                            « Hak dan Kewajiban Kita atas Rasa Aman dan Martabat Manusia »
+                        </p>
+                    </div>
+
+                    <!-- Hero Centerpiece: Scalloped Lace Frame Floating Gracefully -->
+                    <div class="max-w-3xl mx-auto">
+                        <div class="lace-doily-frame text-center">
+                            
+                            <div class="relative rounded-2xl overflow-hidden bg-gradient-to-b from-[#f7f2e7]/90 to-[#ebe2d1]/90 dark:from-[#1b2620]/90 dark:to-[#141d18]/90 p-8 sm:p-12 border border-[#cbd8cf] dark:border-[#384e40]">
+                                
+                                <!-- Floating artistic doves -->
+                                <div class="absolute top-4 left-6 opacity-25 text-emerald-900 dark:text-emerald-300">
+                                    <svg viewBox="0 0 100 80" class="w-12 h-10 fill-current">
+                                        <path d="M12,42 C20,38 32,32 44,24 C54,16 68,4 78,2 C80,18 72,32 64,40 C74,40 88,44 96,48 C92,54 82,58 72,56 C68,62 62,68 54,74 C50,68 52,60 56,54 C46,56 36,60 26,64 C22,56 16,48 12,42 Z" />
+                                    </svg>
+                                </div>
+                                <div class="absolute bottom-4 right-6 opacity-25 text-emerald-900 dark:text-emerald-300">
+                                    <svg viewBox="0 0 100 80" class="w-12 h-10 fill-current">
+                                        <path d="M12,42 C20,38 32,32 44,24 C54,16 68,4 78,2 C80,18 72,32 64,40 C74,40 88,44 96,48 C92,54 82,58 72,56 C68,62 62,68 54,74 C50,68 52,60 56,54 C46,56 36,60 26,64 C22,56 16,48 12,42 Z" />
+                                    </svg>
+                                </div>
+
+                                <div class="space-y-5 relative z-10 max-w-xl mx-auto">
+                                    <div class="w-16 h-16 mx-auto rounded-full bg-[#234e38]/15 dark:bg-emerald-500/20 text-[#234e38] dark:text-emerald-400 flex items-center justify-center text-3xl border border-[#234e38]/30">
+                                        <i class="fa-solid fa-scale-balanced"></i>
+                                    </div>
+                                    <span class="text-xs tracking-widest font-bold text-[#234e38] dark:text-emerald-400 uppercase block font-serif">Landasan Hak Konstitusional</span>
+                                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1] leading-snug">
+                                        Setiap Orang Berhak Merasa <span class="italic underline decoration-[#234e38]/40 dark:decoration-emerald-400/40">Aman dan Bebas</span> dari Segala Bentuk Pelecehan
+                                    </h2>
+                                    <p class="text-xs sm:text-sm text-[#505c53] dark:text-[#a6bbaa] leading-relaxed">
+                                        Platform edukasi dan advokasi interaktif untuk pelajar dan masyarakat. Pahami hak atas rasa aman, cegah pelecehan di sekolah & ruang digital, serta temukan langkah pelaporan yang aman dan terpercaya.
+                                    </p>
+                                </div>
+
+                                <!-- Editorial Action Pills -->
+                                <div class="flex flex-wrap items-center justify-center gap-3 pt-8 relative z-10">
+                                    <button onclick="switchPage('edukasi')" class="px-6 py-3 bg-[#234e38] hover:bg-[#1b3d2c] text-[#faf7f0] text-xs font-bold rounded-full shadow-md transition flex items-center">
+                                        Pelajari Hakmu <i class="fa-solid fa-arrow-right ml-2 text-[10px]"></i>
+                                    </button>
+                                    <button onclick="switchPage('lapor')" class="px-6 py-3 bg-[#214963] hover:bg-[#18364b] text-[#faf7f0] text-xs font-bold rounded-full shadow-md transition flex items-center">
+                                        Butuh Bantuan <i class="fa-solid fa-shield-halved ml-2 text-[10px]"></i>
+                                    </button>
+                                    <button onclick="switchPage('simulator')" class="px-6 py-3 bg-[#fbf9f4] dark:bg-[#1a261f] text-[#234e38] dark:text-emerald-300 hover:bg-[#234e38] hover:text-white transition text-xs font-bold rounded-full border border-[#cbd8cf] dark:border-[#384e40] shadow-sm flex items-center">
+                                        Mulai Simulasi <i class="fa-solid fa-clover ml-2 text-xs text-emerald-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 2: EDITORIAL NARRATIVE & ARSIP (FLOATING CARDS ON SCENIC HILLS) -->
+            <section class="max-w-7xl mx-auto px-4 sm:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    
+                    <!-- Left Floating Card: Archival Photo Vignette -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="floating-card p-6 sm:p-8 space-y-4">
+                            <div class="aspect-[4/3] rounded-2xl overflow-hidden bg-[#e6eee8] dark:bg-[#18231c] relative flex items-center justify-center border border-[#cbd8cf] dark:border-[#33463a]">
+                                <div class="text-center p-6 space-y-3">
+                                    <div class="text-5xl text-[#234e38] dark:text-emerald-400 mb-2">
+                                        <i class="fa-solid fa-landmark"></i>
+                                    </div>
+                                    <h4 class="font-serif font-bold text-xl text-[#18221b] dark:text-[#f0f5f1]">RUANG AMAN BELAJAR & BERKARYA</h4>
+                                    <p class="text-xs text-[#526056] dark:text-[#9bb2a2]">Menolak segala bentuk kekerasan dan pelecehan di lingkungan sekolah dan digital.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-[#5e6860] dark:text-[#8ea394] pt-2 border-t border-[#ded7c8] dark:border-[#2f4236]">
+                                <span class="font-serif font-bold tracking-wider uppercase text-[#234e38] dark:text-emerald-400">PASAL 28G AYAT (1) UUD 1945</span>
+                                <span class="italic font-serif">(1945–2026)</span>
+                            </div>
+                        </div>
+
+                        <!-- Flying Dove Silhouette -->
+                        <div class="hidden sm:flex justify-end pr-6 opacity-60 dove-soar text-[#234e38] dark:text-emerald-400">
+                            <svg viewBox="0 0 100 80" class="w-16 h-12 fill-current">
+                                <path d="M12,42 C20,38 32,32 44,24 C54,16 68,4 78,2 C80,18 72,32 64,40 C74,40 88,44 96,48 C92,54 82,58 72,56 C68,62 62,68 54,74 C50,68 52,60 56,54 C46,56 36,60 26,64 C22,56 16,48 12,42 Z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Right Floating Card: Narrative Story & Russian-Guillemet Slogan -->
+                    <div class="lg:col-span-7 space-y-6">
+                        
+                        <div class="floating-card p-6 sm:p-10 space-y-6">
+                            <div class="space-y-3">
+                                <span class="text-xs font-bold tracking-widest text-[#234e38] dark:text-emerald-400 uppercase font-serif">Kajian & Historisita</span>
+                                <h3 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1] tracking-wide">
+                                    HISTORI, APA YANG KANDAS DI BALIK KETAKUTAN?
+                                </h3>
+                                <p class="text-sm text-[#4d5c52] dark:text-[#a0b5a6] leading-relaxed">
+                                    Pelecehan seksual di lingkungan sekolah dan ruang digital masih sering tersembunyi di balik dinding stigma dan rasa takut. Korban kerap menghadapi hambatan berlapis: mulai dari rasa takut disalahkan (victim-blaming), ancaman sosial, hingga ketidaktahuan akan hak konstitusional mereka. Hakita hadir sebagai jembatan pengetahuan dan keberanian untuk memutus rantai tersebut.
+                                </p>
+                            </div>
+
+                            <!-- Editorial Slogan Banner with Russian Guillemets -->
+                            <div class="p-6 rounded-2xl bg-[#edf6f0] dark:bg-[#18251e] border-l-4 border-[#234e38] dark:border-emerald-500 shadow-sm space-y-2">
+                                <span class="text-[10px] uppercase tracking-widest font-bold text-[#234e38] dark:text-emerald-400 block font-serif">Slogan Utama Projek:</span>
+                                <div class="font-serif font-bold text-2xl sm:text-3xl text-[#18221b] dark:text-[#f0f5f1] leading-tight">
+                                    « SUARAKAN HAKMU, JAGA BATASMU, WUJUDKAN AMAN BERSAMA »
+                                </div>
+                                <p class="text-xs text-[#5e6860] dark:text-[#9bb2a2] italic pt-1">
+                                    Pendidikan karakter, keadilan konstitusional, dan empati bagi seluruh generasi muda Indonesia.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 3: MENGAPA ISU INI PENTING (VARIEGATED DARK MODE COLORS) -->
+            <section class="max-w-7xl mx-auto px-4 sm:px-8 space-y-8">
+                <div class="max-w-3xl space-y-2">
+                    <span class="text-xs font-bold tracking-widest text-[#234e38] dark:text-emerald-400 uppercase font-serif">Data & Realitas Sosial</span>
+                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1]">Mengapa Isu Ini Penting?</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                    <!-- Card 1: Forest Green Dark Theme -->
+                    <div class="p-8 rounded-3xl bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] space-y-3 shadow-md hover:-translate-y-1 transition duration-200">
+                        <div class="text-5xl font-serif font-bold text-[#234e38] dark:text-emerald-400">68%</div>
+                        <h4 class="font-serif font-bold text-xl text-[#18221b] dark:text-[#f0f5f1]">Kasus di Lingkungan Pendidikan</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Berdasarkan catatan tahunan Komnas Perempuan, institusi pendidikan (termasuk sekolah & kampus) kerap menjadi salah satu ruang pelaporan kekerasan yang rentan.</p>
+                        <div class="pt-2 text-[10px] text-[#6b776f] dark:text-[#8ea394] italic font-semibold border-t border-[#cbd8cf] dark:border-[#2a4234]">Sumber: Catatan Tahunan Komnas Perempuan, 2024</div>
+                    </div>
+
+                    <!-- Card 2: Midnight Slate Blue Dark Theme -->
+                    <div class="p-8 rounded-3xl bg-[#ebf4fa] dark:bg-[#14202a] border border-[#c3daf0] dark:border-[#284458] space-y-3 shadow-md hover:-translate-y-1 transition duration-200">
+                        <div class="text-4xl font-serif font-bold text-[#214963] dark:text-sky-300">Cyber Harassment</div>
+                        <h4 class="font-serif font-bold text-xl text-[#18221b] dark:text-[#f0f5f1]">Ancaman di Ruang Digital</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Pelecehan tidak hanya terjadi secara fisik, tetapi juga melalui komentar tidak senonoh, penyebaran foto tanpa izin, dan pesan daring yang merendahkan martabat.</p>
+                        <div class="pt-2 text-[10px] text-[#6b776f] dark:text-[#8ea394] italic font-semibold border-t border-[#c3daf0] dark:border-[#284458]">Sumber: Laporan Kementerian PPPA RI</div>
+                    </div>
+
+                    <!-- Card 3: Warm Earth Amber Dark Theme -->
+                    <div class="p-8 rounded-3xl bg-[#fef9ee] dark:bg-[#25211b] border border-[#e8dcb8] dark:border-[#524536] space-y-3 shadow-md hover:-translate-y-1 transition duration-200">
+                        <div class="text-4xl font-serif font-bold text-[#8c6b2d] dark:text-amber-300">Stigma & Takut</div>
+                        <h4 class="font-serif font-bold text-xl text-[#18221b] dark:text-[#f0f5f1]">Hambatan Utama Pelaporan</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Lebih dari separuh korban memilih bungkam karena khawatir tidak dipercaya, dihakimi lingkungan, atau menjadi bahan perundungan lanjutan.</p>
+                        <div class="pt-2 text-[10px] text-[#6b776f] dark:text-[#8ea394] italic font-semibold border-t border-[#e8dcb8] dark:border-[#524536]">Sumber: Riset Pendidikan Karakter Nasional</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: KATALOG FITUR UTAMA -->
+            <section class="max-w-7xl mx-auto px-4 sm:px-8 space-y-8">
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <span class="text-xs font-bold tracking-widest text-[#234e38] dark:text-emerald-400 uppercase font-serif">Katalog Vitrina</span>
+                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1]">Jelajahi Fitur Utama Hakita</h2>
+                    <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2]">Panduan lengkap dan interaktif untuk memahami, mencegah, dan melaporkan tindakan pelecehan.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Feature 1: Forest Green -->
+                    <div onclick="switchPage('edukasi')" class="p-8 rounded-3xl bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] cursor-pointer hover:-translate-y-2 transition duration-300 space-y-4 shadow-md">
+                        <div class="w-14 h-14 bg-[#234e38]/15 text-[#234e38] dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl border border-[#234e38]/25 shadow-sm">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                        </div>
+                        <h3 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1]">Edukasi & Hukum</h3>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Kenali bentuk pelecehan dan pasal UUD 1945 yang menjamin hak atas rasa aman.</p>
+                    </div>
+
+                    <!-- Feature 2: Slate Blue -->
+                    <div onclick="switchPage('panduan')" class="p-8 rounded-3xl bg-[#ebf4fa] dark:bg-[#14202a] border border-[#c3daf0] dark:border-[#284458] cursor-pointer hover:-translate-y-2 transition duration-300 space-y-4 shadow-md">
+                        <div class="w-14 h-14 bg-[#214963]/15 text-[#214963] dark:text-sky-300 rounded-2xl flex items-center justify-center text-2xl border border-[#214963]/25 shadow-sm">
+                            <i class="fa-solid fa-hands-holding-child"></i>
+                        </div>
+                        <h3 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1]">Panduan Bertindak</h3>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Metode 5D bagi saksi dan langkah praktis bagi korban untuk bertindak aman.</p>
+                    </div>
+
+                    <!-- Feature 3: Warm Sand/Earth Taupe -->
+                    <div onclick="switchPage('lapor')" class="p-8 rounded-3xl bg-[#f5f0e8] dark:bg-[#221e1a] border border-[#ded4c5] dark:border-[#4a4035] cursor-pointer hover:-translate-y-2 transition duration-300 space-y-4 shadow-md">
+                        <div class="w-14 h-14 bg-[#726757]/15 text-[#726757] dark:text-amber-300 rounded-2xl flex items-center justify-center text-2xl border border-[#726757]/25 shadow-sm">
+                            <i class="fa-solid fa-phone-flip"></i>
+                        </div>
+                        <h3 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1]">Prosedur Melapor</h3>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Alur pelaporan aman serta kontak darurat resmi seperti SAPA 129 KemenPPPA.</p>
+                    </div>
+
+                    <!-- Feature 4: SafeZone Simulator -->
+                    <div onclick="switchPage('simulator')" class="p-8 rounded-3xl bg-[#fef9ee] dark:bg-[#1a251e] border-2 border-[#234e38]/40 dark:border-emerald-500/40 cursor-pointer hover:-translate-y-2 transition duration-300 space-y-4 shadow-md">
+                        <div class="w-14 h-14 bg-emerald-600/15 text-emerald-800 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl border border-emerald-600/25 shadow-sm">
+                            <i class="fa-solid fa-clover"></i>
+                        </div>
+                        <h3 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1] flex items-center justify-between">
+                            SafeZone Simulator
+                            <span class="text-[9px] bg-[#234e38] text-white px-2 py-0.5 rounded-full font-sans uppercase">Storybook</span>
+                        </h3>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Bermain peran, ambil keputusan skenario nyata, dan tentukan alur menuju keadilan.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+
+        <!-- ================= PAGE 2: EDUKASI DAN LANDASAN HUKUM (VARIEGATED DARK MODE COLORS) ================= -->
+        <div id="page-edukasi" class="page-section hidden max-w-7xl mx-auto px-4 sm:px-8 space-y-16">
+            
+            <div class="floating-card p-8 sm:p-12 text-center space-y-3 bg-gradient-to-r from-[#234e38]/10 via-[#214963]/10 to-transparent">
+                <span class="text-xs font-bold tracking-widest text-[#234e38] dark:text-emerald-400 uppercase font-serif">Pusat Pengetahuan Konstitusi</span>
+                <h1 class="font-serif font-bold text-4xl sm:text-5xl text-[#18221b] dark:text-[#f0f5f1]">Edukasi & Landasan Hukum</h1>
+                <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] max-w-2xl mx-auto">Memahami definisi pelecehan seksual, bentuk-bentuknya, serta jaminan perlindungan hak asasi manusia dalam konstitusi negara.</p>
+            </div>
+
+            <!-- 1. Mengenal Pelecehan Seksual (4 CARDS IN DISTINCT HARMONIOUS COLORS) -->
+            <div class="floating-card p-8 sm:p-10 space-y-8">
+                <div class="border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                    <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 uppercase font-serif tracking-widest">BAGIAN I</span>
+                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1] mt-1">1. Mengenal Pelecehan Seksual & Bentuk-Bentuknya</h2>
+                </div>
+                <p class="text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                    Pelecehan seksual adalah segala tindakan bernuansa seksual yang dilakukan tanpa persetujuan (consent), membuat korban merasa tidak nyaman, terhina, terancam, atau merendahkan martabat manusia.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Verbal: Forest Green Theme -->
+                    <div class="p-6 sm:p-8 rounded-2xl bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] space-y-3 shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-[#234e38] text-white rounded-2xl flex items-center justify-center font-serif font-bold text-xl shadow-sm">V</div>
+                            <h3 class="font-display font-bold text-2xl sm:text-3xl text-[#18221b] dark:text-[#f0f5f1] tracking-wide">VERBAL</h3>
+                        </div>
+                        <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Komentar, lelucon, siulan, rayuan bernuansa seksual, atau ucapan tidak senonoh yang disampaikan secara lisan dan tidak dikehendaki.</p>
+                    </div>
+
+                    <!-- Fisik: Midnight Slate Blue Theme -->
+                    <div class="p-6 sm:p-8 rounded-2xl bg-[#ebf4fa] dark:bg-[#14202a] border border-[#c3daf0] dark:border-[#284458] space-y-3 shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-[#214963] text-white rounded-2xl flex items-center justify-center font-serif font-bold text-xl shadow-sm">F</div>
+                            <h3 class="font-display font-bold text-2xl sm:text-3xl text-[#18221b] dark:text-[#f0f5f1] tracking-wide">FISIK</h3>
+                        </div>
+                        <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Sentuhan, pelukan, rabaan, atau tindakan fisik lain yang bernuansa seksual tanpa persetujuan korban.</p>
+                    </div>
+
+                    <!-- Nonfisik: Warm Earth Amber Theme -->
+                    <div class="p-6 sm:p-8 rounded-2xl bg-[#fef9ee] dark:bg-[#25211b] border border-[#e8dcb8] dark:border-[#524536] space-y-3 shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-[#726757] text-white rounded-2xl flex items-center justify-center font-serif font-bold text-xl shadow-sm">N</div>
+                            <h3 class="font-display font-bold text-2xl sm:text-3xl text-[#18221b] dark:text-[#f0f5f1] tracking-wide">NONFISIK</h3>
+                        </div>
+                        <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Gestur tubuh, kedipan mata, siulan mengejek, atau tatapan penuh gestur seksual yang membuat risih dan melecehkan.</p>
+                    </div>
+
+                    <!-- Daring: Deep Teal Slate Theme -->
+                    <div class="p-6 sm:p-8 rounded-2xl bg-[#edf9f8] dark:bg-[#132224] border border-[#bce2df] dark:border-[#254145] space-y-3 shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-[#1b5e58] text-white rounded-2xl flex items-center justify-center font-serif font-bold text-xl shadow-sm">D</div>
+                            <h3 class="font-display font-bold text-2xl sm:text-3xl text-[#18221b] dark:text-[#f0f5f1] tracking-wide">DARING (CYBER)</h3>
+                        </div>
+                        <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Pelecehan melalui pesan teks, media sosial, komentar porno, panggilan video tidak senonoh, atau penyebaran konten pribadi tanpa izin.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Landasan Hukum UUD 1945 (VARIEGATED CARDS) -->
+            <div class="floating-card p-8 sm:p-10 space-y-8">
+                <div class="border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                    <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 uppercase font-serif tracking-widest">BAGIAN II</span>
+                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1] mt-1">2. Landasan Hukum (UUD NRI Tahun 1945)</h2>
+                </div>
+                <p class="text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                    Negara Republik Indonesia menjamin perlindungan hak asasi setiap warga negara dari segala bentuk kekerasan, diskriminasi, dan pelecehan.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Pasal 28G (1): Forest Green Theme -->
+                    <div class="p-6 sm:p-8 rounded-2xl border border-[#cbd8cf] dark:border-[#2a4234] bg-[#edf6f0] dark:bg-[#131e18] space-y-3 shadow-sm">
+                        <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 uppercase tracking-widest font-serif block">Jaminan Konstitusi</span>
+                        <h4 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1]">Pasal 28G Ayat (1) • Rasa Aman & Kehormatan</h4>
+                        <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed italic">
+                            « Setiap orang berhak atas perlindungan diri pribadi, keluarga, kehormatan, martabat, dan harta benda yang di bawah kekuasaannya, serta berhak atas rasa aman dan perlindungan dari ancaman ketakutan untuk berbuat atau tidak berbuat sesuatu yang merupakan hak asasinya. »
+                        </p>
+                    </div>
+
+                    <!-- Pasal 28G (2): Warm Earth Amber Theme -->
+                    <div class="p-6 sm:p-8 rounded-2xl border border-[#e8dcb8] dark:border-[#524536] bg-[#fef9ee] dark:bg-[#25211b] space-y-3 shadow-sm">
+                        <span class="text-xs font-bold text-[#8c6b2d] dark:text-amber-400 uppercase tracking-widest font-serif block">Jaminan Konstitusi</span>
+                        <h4 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1]">Pasal 28G Ayat (2) • Bebas dari Merendahkan Derajat</h4>
+                        <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed italic">
+                            « Setiap orang berhak untuk bebas dari penyiksaan atau perlakuan yang merendahkan derajat martabat manusia dan berhak memperoleh suaka politik dari negara lain. »
+                        </p>
+                    </div>
+
+                    <!-- Pasal 28I (1): Midnight Slate Blue Theme -->
+                    <div class="p-6 sm:p-8 rounded-2xl border border-[#c3daf0] dark:border-[#284458] bg-[#ebf4fa] dark:bg-[#14202a] space-y-3 shadow-sm">
+                        <span class="text-xs font-bold text-[#214963] dark:text-sky-300 uppercase tracking-widest font-serif block">Jaminan Konstitusi</span>
+                        <h4 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1]">Pasal 28I Ayat (1) • Hak yang Tidak Dapat Dikurangi</h4>
+                        <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed italic">
+                            « Hak untuk hidup, hak untuk tidak disiksa, hak kemerdekaan pikiran dan hati nurani, hak beragama, hak untuk tidak diperbudak, hak untuk diakui sebagai pribadi di hadapan hukum, dan hak untuk tidak dituntut atas dasar hukum yang berlaku surut adalah hak asasi manusia yang tidak dapat dikurangi dalam keadaan apapun. »
+                        </p>
+                    </div>
+
+                    <!-- Pasal 28I (2): Deep Teal Slate Theme -->
+                    <div class="p-6 sm:p-8 rounded-2xl border border-[#bce2df] dark:border-[#254145] bg-[#edf9f8] dark:bg-[#132224] space-y-3 shadow-sm">
+                        <span class="text-xs font-bold text-[#1b5e58] dark:text-teal-300 uppercase tracking-widest font-serif block">Jaminan Konstitusi</span>
+                        <h4 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1]">Pasal 28I Ayat (2) • Perlindungan Anti-Diskriminasi</h4>
+                        <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed italic">
+                            « Setiap orang berhak bebas dari perlakuan yang bersifat diskriminatif atas dasar apapun dan berhak mendapatkan perlindungan terhadap perlakuan yang bersifat diskriminatif itu. »
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Studi Kasus Nyata -->
+            <div class="floating-card p-8 sm:p-10 space-y-6">
+                <div class="flex flex-wrap items-center justify-between border-b border-[#ded7c8] dark:border-[#2f4236] pb-4 gap-2">
+                    <div>
+                        <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 uppercase font-serif tracking-widest">BAGIAN III</span>
+                        <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1]">3. Studi Kasus Nyata & Pembelajaran</h2>
+                    </div>
+                    <span class="px-3.5 py-1 bg-emerald-100 dark:bg-emerald-950 text-[#234e38] dark:text-emerald-300 text-xs font-bold rounded-full font-serif border border-emerald-300 dark:border-emerald-700">KASUS TERVERIFIKASI</span>
+                </div>
+
+                <div onclick="openCaseStudyModal()" class="bg-[#edf6f0] dark:bg-[#131e18] p-6 sm:p-8 rounded-2xl border border-[#cbd8cf] dark:border-[#2a4234] space-y-4 cursor-pointer hover:border-[#234e38] dark:hover:border-emerald-500 transition duration-200 group shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1] group-hover:text-[#234e38] dark:group-hover:text-emerald-400 transition">
+                            Kasus: Penanganan Pelecehan Verbal & Daring di Lingkungan Sekolah
+                        </h3>
+                        <span class="text-xs font-sans text-[#234e38] dark:text-emerald-400 font-bold hidden sm:flex items-center gap-1">
+                            Perbesar Berkas <i class="fa-solid fa-expand"></i>
+                        </span>
+                    </div>
+                    <p class="text-xs text-[#526056] dark:text-[#9bb2a2]"><strong>Sumber Rujukan:</strong> Berdasarkan arsip laporan perlindungan anak dan publikasi media nasional (Tribunnews & Jawa Pos).</p>
+                    
+                    <div class="space-y-3 text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                        <p><strong>Latar Belakang & Kronologi:</strong> Seorang siswi menghadapi pengiriman pesan digital tidak senonoh serta siulan berulang dari oknum di lingkungan sekolah saat jam istirahat. Korban sempat merasa takut untuk melapor karena khawatir diintimidasi oleh pelaku dan dicap "mencari perhatian".</p>
+                        <p><strong>Hak yang Terdampak:</strong> Hak atas rasa aman (Pasal 28G ayat 1), kehormatan pribadi, serta kenyamanan dalam mengenyam pendidikan tanpa diskriminasi.</p>
+                        <p><strong>Hambatan Pelaporan:</strong> Stigma sosial, ketakutan akan ancaman nilai akademik, dan minimnya saluran aduan yang menjamin kerahasiaan identitas.</p>
+                        <p><strong>Pelajaran & Solusi:</strong> Berkat keberanian korban melapor kepada Guru BK dengan pendampingan saksi menggunakan metode 5D, pihak sekolah segera memproses kasus sesuai SOP perlindungan anak, memberikan konseling psikologis, dan menjatuhkan sanksi tegas kepada pelaku.</p>
+                    </div>
+                    <div class="text-[11px] text-[#234e38] dark:text-emerald-400 italic pt-1 font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Klik untuk membuka tampilan berkas arsip lengkap
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to action block in Forest Green -->
+            <div class="bg-[#234e38] text-[#faf7f0] p-8 sm:p-12 rounded-3xl space-y-4 shadow-xl">
+                <h2 class="font-serif font-bold text-3xl sm:text-4xl">Apa yang Bisa Kita Lakukan?</h2>
+                <p class="text-xs sm:text-sm opacity-90 leading-relaxed max-w-3xl">
+                    Pencegahan dimulai dari kesadaran bersama. Jangan biarkan pelecehan dinormalisasi sebagai "candaan". Dukung sesama teman, laporkan pelanggaran, dan ciptakan lingkungan sekolah yang menjunjung tinggi martabat manusia.
+                </p>
+                <div class="pt-2">
+                    <button onclick="switchPage('panduan')" class="px-6 py-3 bg-[#faf7f0] text-[#234e38] font-bold rounded-full hover:bg-white transition text-xs shadow-md">
+                        Lihat Panduan Bertindak <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ================= PAGE 3: PANDUAN BERTINDAK (REFINED 5D BALANCED FONTS & VARIED COLORS) ================= -->
+        <div id="page-panduan" class="page-section hidden max-w-7xl mx-auto px-4 sm:px-8 space-y-16">
+            
+            <div class="floating-card p-8 sm:p-12 text-center space-y-3 bg-gradient-to-r from-[#214963]/10 via-[#234e38]/10 to-transparent">
+                <span class="text-xs font-bold tracking-widest text-[#214963] dark:text-sky-400 uppercase font-serif">Protokol Praktis</span>
+                <h1 class="font-serif font-bold text-4xl sm:text-5xl text-[#18221b] dark:text-[#f0f5f1]">Panduan Bertindak</h1>
+                <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] max-w-2xl mx-auto">Panduan praktis bagi korban, saksi (Metode 5D), serta pihak sekolah untuk menangani situasi pelecehan secara aman dan profesional.</p>
+            </div>
+
+            <!-- Jika Mengalami Pelecehan (VARIEGATED CARDS) -->
+            <div class="floating-card p-8 sm:p-10 space-y-6">
+                <div class="border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                    <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 uppercase font-serif tracking-widest">LANGKAH KORBAN</span>
+                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1] mt-1">Jika Anda Mengalami Pelecehan</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Step 1: Forest Green -->
+                    <div class="p-6 sm:p-7 bg-[#edf6f0] dark:bg-[#131e18] rounded-2xl border border-[#cbd8cf] dark:border-[#2a4234] space-y-2.5 shadow-sm">
+                        <div class="w-9 h-9 bg-[#234e38] text-white rounded-xl flex items-center justify-center font-bold text-xs font-serif shadow-sm">1</div>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1]">Utamakan Keselamatan</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Segera tinggalkan lokasi kejadian dan cari tempat yang aman serta terang.</p>
+                    </div>
+
+                    <!-- Step 2: Slate Blue -->
+                    <div class="p-6 sm:p-7 bg-[#ebf4fa] dark:bg-[#14202a] rounded-2xl border border-[#c3daf0] dark:border-[#284458] space-y-2.5 shadow-sm">
+                        <div class="w-9 h-9 bg-[#214963] text-white rounded-xl flex items-center justify-center font-bold text-xs font-serif shadow-sm">2</div>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1]">Hubungi Orang Tepercaya</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Ceritakan kepada keluarga, guru BK, atau pihak sekolah yang memiliki integritas dan dapat dipercaya.</p>
+                    </div>
+
+                    <!-- Step 3: Earth Amber -->
+                    <div class="p-6 sm:p-7 bg-[#fef9ee] dark:bg-[#25211b] rounded-2xl border border-[#e8dcb8] dark:border-[#524536] space-y-2.5 shadow-sm">
+                        <div class="w-9 h-9 bg-[#8c6b2d] text-white rounded-xl flex items-center justify-center font-bold text-xs font-serif shadow-sm">3</div>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1]">Simpan Bukti Digital</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Jika berupa pesan digital atau foto, simpan tangkapan layar (screenshot) jika aman dilakukan.</p>
+                    </div>
+
+                    <!-- Step 4: Sand Taupe -->
+                    <div class="p-6 sm:p-7 bg-[#f5f0e8] dark:bg-[#221e1a] rounded-2xl border border-[#ded4c5] dark:border-[#4a4035] space-y-2.5 shadow-sm">
+                        <div class="w-9 h-9 bg-[#726757] text-white rounded-xl flex items-center justify-center font-bold text-xs font-serif shadow-sm">4</div>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1]">Hak Menolak Detail</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Jangan merasa wajib menceritakan detail kejadian kepada orang yang tidak berkepentingan atau tidak dipercaya.</p>
+                    </div>
+
+                    <!-- Step 5: Teal Slate -->
+                    <div class="p-6 sm:p-7 bg-[#edf9f8] dark:bg-[#132224] rounded-2xl border border-[#bce2df] dark:border-[#254145] space-y-2.5 shadow-sm">
+                        <div class="w-9 h-9 bg-[#1b5e58] text-white rounded-xl flex items-center justify-center font-bold text-xs font-serif shadow-sm">5</div>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1]">Pendampingan Psikologis</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Cari layanan konseling atau perlindungan profesional untuk memulihkan trauma dan mental.</p>
+                    </div>
+
+                    <!-- Step 6: Terracotta Clay -->
+                    <div class="p-6 sm:p-7 bg-[#faece8] dark:bg-[#291b17] rounded-2xl border border-[#ecc1b6] dark:border-[#5c382e] space-y-2.5 shadow-sm">
+                        <div class="w-9 h-9 bg-[#9b381e] text-white rounded-xl flex items-center justify-center font-bold text-xs font-serif shadow-sm">6</div>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1]">Bahaya Langsung (Darurat)</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Jika berada dalam ancaman fisik langsung, segera hubungi layanan darurat kepolisian atau pihak berwenang.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- METODE 5D INTERVENSI SAKSI (REFINED BALANCED FONTS, NOT CROWDED, WITH COLOR VARIATIONS) -->
+            <div class="floating-card p-8 sm:p-10 space-y-8">
+                <div class="border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                    <span class="text-xs font-bold text-[#214963] dark:text-sky-400 uppercase font-serif tracking-widest">INTERVENSI SAKSI BERDAYA</span>
+                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1] mt-1">Jika Menjadi Saksi: Metode 5D</h2>
+                    <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] mt-1">Pilih salah satu dari 5 metode praktis ini untuk menghentikan pelecehan secara aman:</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+                    
+                    <!-- 1. Distract: Forest Green Card -->
+                    <div class="p-5 sm:p-6 bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] rounded-2xl space-y-2.5 shadow-sm transition hover:-translate-y-1 duration-200">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2.5 py-0.5 bg-[#234e38]/15 dark:bg-emerald-500/20 text-[#234e38] dark:text-emerald-400 rounded-full font-serif uppercase tracking-wider">01 • DISTRACT</span>
+                            <i class="fa-solid fa-shuffle text-[#234e38] dark:text-emerald-400 text-xs"></i>
+                        </div>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1] leading-snug">Alihkan</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                            Alihkan perhatian pelaku atau korban dengan pura-pura menanyakan jam, arah jalan, atau menjatuhkan barang agar situasi terpecah.
+                        </p>
+                    </div>
+
+                    <!-- 2. Delegate: Midnight Slate Blue Card -->
+                    <div class="p-5 sm:p-6 bg-[#ebf4fa] dark:bg-[#14202a] border border-[#c3daf0] dark:border-[#284458] rounded-2xl space-y-2.5 shadow-sm transition hover:-translate-y-1 duration-200">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2.5 py-0.5 bg-[#214963]/15 dark:bg-sky-500/20 text-[#214963] dark:text-sky-300 rounded-full font-serif uppercase tracking-wider">02 • DELEGATE</span>
+                            <i class="fa-solid fa-bullhorn text-[#214963] dark:text-sky-400 text-xs"></i>
+                        </div>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1] leading-snug">Delegasikan</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                            Minta bantuan guru, petugas keamanan, atau pihak berwenang di sekitar untuk segera menghentikan tindakan tersebut.
+                        </p>
+                    </div>
+
+                    <!-- 3. Document: Warm Earth Amber Card -->
+                    <div class="p-5 sm:p-6 bg-[#fef9ee] dark:bg-[#25211b] border border-[#e8dcb8] dark:border-[#524536] rounded-2xl space-y-2.5 shadow-sm transition hover:-translate-y-1 duration-200">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2.5 py-0.5 bg-[#8c6b2d]/15 dark:bg-amber-500/20 text-[#8c6b2d] dark:text-amber-300 rounded-full font-serif uppercase tracking-wider">03 • DOCUMENT</span>
+                            <i class="fa-solid fa-camera text-[#8c6b2d] dark:text-amber-400 text-xs"></i>
+                        </div>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1] leading-snug">Dokumentasikan</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                            Catat kejadian secara aman. Jangan sebar rekaman ke media sosial atau mengekspos identitas korban tanpa izin.
+                        </p>
+                    </div>
+
+                    <!-- 4. Delay: Warm Sand Taupe Card -->
+                    <div class="p-5 sm:p-6 bg-[#f5f0e8] dark:bg-[#221e1a] border border-[#ded4c5] dark:border-[#4a4035] rounded-2xl space-y-2.5 shadow-sm transition hover:-translate-y-1 duration-200">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2.5 py-0.5 bg-[#726757]/15 dark:bg-stone-500/20 text-[#726757] dark:text-stone-300 rounded-full font-serif uppercase tracking-wider">04 • DELAY</span>
+                            <i class="fa-solid fa-heart-circle-check text-[#726757] dark:text-stone-300 text-xs"></i>
+                        </div>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1] leading-snug">Tunda & Tanyakan</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                            Setelah situasi reda, dekati korban, tanyakan kondisinya, dan tawarkan bantuan serta pendampingan.
+                        </p>
+                    </div>
+
+                    <!-- 5. Direct: Deep Emerald Moss Card -->
+                    <div class="p-5 sm:p-6 bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] rounded-2xl space-y-2.5 shadow-sm transition hover:-translate-y-1 duration-200">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2.5 py-0.5 bg-[#234e38]/15 dark:bg-emerald-500/20 text-[#234e38] dark:text-emerald-400 rounded-full font-serif uppercase tracking-wider">05 • DIRECT</span>
+                            <i class="fa-solid fa-hand text-[#234e38] dark:text-emerald-400 text-xs"></i>
+                        </div>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1] leading-snug">Tegur Langsung</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                            Tegur pelaku secara langsung jika situasinya aman bagi keselamatan Anda (contoh: "Hentikan tindakan itu, itu tidak sopan!").
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Rekomendasi untuk Sekolah -->
+            <div class="floating-card p-8 sm:p-10 space-y-6">
+                <div class="border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                    <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 uppercase font-serif tracking-widest">INSTITUSI PENDIDIKAN</span>
+                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1] mt-1">Rekomendasi untuk Sekolah</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] rounded-2xl space-y-2">
+                        <i class="fa-solid fa-box-archive text-[#234e38] dark:text-emerald-400 text-2xl mb-2"></i>
+                        <h4 class="font-serif font-bold text-xl text-[#18221b] dark:text-[#f0f5f1]">Kanal Pengaduan Aman</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Menyediakan kotak aduan fisik rahasia atau sistem digital yang mudah diakses oleh seluruh siswa.</p>
+                    </div>
+
+                    <div class="p-6 bg-[#ebf4fa] dark:bg-[#14202a] border border-[#c3daf0] dark:border-[#284458] rounded-2xl space-y-2">
+                        <i class="fa-solid fa-file-shield text-[#214963] dark:text-sky-300 text-2xl mb-2"></i>
+                        <h4 class="font-serif font-bold text-xl text-[#18221b] dark:text-[#f0f5f1]">SOP Penanganan Tegas</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Menetapkan Standar Operasional Prosedur penerimaan dan penanganan laporan tanpa bias gender atau victim-blaming.</p>
+                    </div>
+
+                    <div class="p-6 bg-[#fef9ee] dark:bg-[#25211b] border border-[#e8dcb8] dark:border-[#524536] rounded-2xl space-y-2">
+                        <i class="fa-solid fa-shield-heart text-[#8c6b2d] dark:text-amber-400 text-2xl mb-2"></i>
+                        <h4 class="font-serif font-bold text-xl text-[#18221b] dark:text-[#f0f5f1]">Perlindungan & Edukasi</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Menjaga privasi korban, mencegah pembalasan (retaliasi), dan rutin mengadakan edukasi pencegahan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ================= PAGE 4: PROSEDUR MELAPOR ================= -->
+        <div id="page-lapor" class="page-section hidden max-w-7xl mx-auto px-4 sm:px-8 space-y-16">
+            
+            <div class="floating-card p-8 sm:p-12 text-center space-y-3 bg-gradient-to-r from-[#214963]/10 via-[#234e38]/10 to-transparent">
+                <span class="text-xs font-bold tracking-widest text-[#214963] dark:text-sky-400 uppercase font-serif">Bantuan & Kontak Resmi</span>
+                <h1 class="font-serif font-bold text-4xl sm:text-5xl text-[#18221b] dark:text-[#f0f5f1]">Prosedur Melapor</h1>
+                <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] max-w-2xl mx-auto">Alur pelaporan yang aman, rahasia, serta pilihan jalur internal dan eksternal beserta kontak resmi lembaga berwenang.</p>
+            </div>
+
+            <!-- Alur Pelaporan 4 Langkah (VARIEGATED CARDS) -->
+            <div class="floating-card p-8 sm:p-10 space-y-6">
+                <div class="border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                    <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 uppercase font-serif tracking-widest">ALUR 4 TAHAP</span>
+                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1] mt-1">Alur Pelaporan 4 Langkah</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="p-6 bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] rounded-2xl space-y-2">
+                        <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 font-serif">TAHAP 01</span>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1]">Kenali Kebutuhan</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Tentukan apakah Anda membutuhkan pertolongan medis/darurat segera atau ingin menyampaikan pengaduan formal.</p>
+                    </div>
+
+                    <div class="p-6 bg-[#ebf4fa] dark:bg-[#14202a] border border-[#c3daf0] dark:border-[#284458] rounded-2xl space-y-2">
+                        <span class="text-xs font-bold text-[#214963] dark:text-sky-300 font-serif">TAHAP 02</span>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1]">Pilih Jalur</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Pilih orang tepercaya, guru BK, pihak sekolah berwenang, atau layanan resmi lembaga eksternal.</p>
+                    </div>
+
+                    <div class="p-6 bg-[#fef9ee] dark:bg-[#25211b] border border-[#e8dcb8] dark:border-[#524536] rounded-2xl space-y-2">
+                        <span class="text-xs font-bold text-[#8c6b2d] dark:text-amber-400 font-serif">TAHAP 03</span>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1]">Sampaikan Fakta</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Jelaskan fakta yang diketahui secara objektif dan lampirkan bukti pendukung jika aman dilakukan.</p>
+                    </div>
+
+                    <div class="p-6 bg-[#f5f0e8] dark:bg-[#221e1a] border border-[#ded4c5] dark:border-[#4a4035] rounded-2xl space-y-2">
+                        <span class="text-xs font-bold text-[#726757] dark:text-stone-300 font-serif">TAHAP 04</span>
+                        <h4 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1]">Tindak Lanjut</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Tanyakan pihak yang menangani mengenai tahapan selanjutnya dan jaminan perlindungan privasi.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jalur Internal & Eksternal -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+                <!-- Jalur Internal: Forest Green Theme -->
+                <div class="floating-card p-8 sm:p-10 flex flex-col justify-between space-y-6">
+                    <div class="space-y-6">
+                        <div class="border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                            <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 uppercase font-serif tracking-widest">INTERNAL SEKOLAH</span>
+                            <h3 class="font-serif font-bold text-2xl sm:text-3xl text-[#18221b] dark:text-[#f0f5f1] mt-1">Jalur Internal</h3>
+                        </div>
+
+                        <div class="space-y-4">
+                            <!-- Jalur 1: Guru BK -->
+                            <div class="p-5 sm:p-6 bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] rounded-2xl flex items-start space-x-4 shadow-sm transition hover:-translate-y-0.5 duration-200">
+                                <div class="w-12 h-12 rounded-xl bg-[#234e38]/15 dark:bg-emerald-500/20 text-[#234e38] dark:text-emerald-400 flex items-center justify-center text-xl shrink-0 mt-0.5 border border-[#234e38]/20">
+                                    <i class="fa-solid fa-user-graduate"></i>
+                                </div>
+                                <div class="space-y-1.5 flex-1">
+                                    <h4 class="font-serif font-bold text-lg sm:text-xl text-[#18221b] dark:text-[#f0f5f1]">Guru Bimbingan Konseling (BK)</h4>
+                                    <p class="text-sm sm:text-base text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                                        Tempat curhat dan pengaduan awal yang aman, rahasia, serta profesional di lingkungan sekolah.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Jalur 2: Tim Penanganan Kekerasan Sekolah -->
+                            <div class="p-5 sm:p-6 bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] rounded-2xl flex items-start space-x-4 shadow-sm transition hover:-translate-y-0.5 duration-200">
+                                <div class="w-12 h-12 rounded-xl bg-[#234e38]/15 dark:bg-emerald-500/20 text-[#234e38] dark:text-emerald-400 flex items-center justify-center text-xl shrink-0 mt-0.5 border border-[#234e38]/20">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <div class="space-y-1.5 flex-1">
+                                    <h4 class="font-serif font-bold text-lg sm:text-xl text-[#18221b] dark:text-[#f0f5f1]">Tim Penanganan Kekerasan Sekolah</h4>
+                                    <p class="text-sm sm:text-base text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                                        Satuan tugas resmi di sekolah yang bertindak cepat dan objektif menerima serta memproses laporan pengaduan.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Jalur 3: Wali Kelas / Guru Pembina -->
+                            <div class="p-5 sm:p-6 bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] rounded-2xl flex items-start space-x-4 shadow-sm transition hover:-translate-y-0.5 duration-200">
+                                <div class="w-12 h-12 rounded-xl bg-[#234e38]/15 dark:bg-emerald-500/20 text-[#234e38] dark:text-emerald-400 flex items-center justify-center text-xl shrink-0 mt-0.5 border border-[#234e38]/20">
+                                    <i class="fa-solid fa-chalkboard-user"></i>
+                                </div>
+                                <div class="space-y-1.5 flex-1">
+                                    <h4 class="font-serif font-bold text-lg sm:text-xl text-[#18221b] dark:text-[#f0f5f1]">Wali Kelas / Guru Pembina</h4>
+                                    <p class="text-sm sm:text-base text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                                        Pendamping terdekat yang dapat memberikan perlindungan awal dan meneruskan laporan kepada kepala sekolah.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Guarantee Note (Memenuhi Ruang & Menambah Nilai Edukasi) -->
+                    <div class="p-4 rounded-xl bg-[#234e38]/10 dark:bg-emerald-950/30 border border-[#234e38]/20 dark:border-emerald-800/30 flex items-center gap-3 text-xs sm:text-sm text-[#234e38] dark:text-emerald-300">
+                        <i class="fa-solid fa-lock text-base shrink-0"></i>
+                        <span><strong>Jaminan Privasi:</strong> Setiap pelaporan melalui jalur internal wajib menjunjung tinggi kerahasiaan identitas dan perlindungan pelapor tanpa intimidasi.</span>
+                    </div>
+                </div>
+
+                <!-- Jalur Eksternal & Kontak Resmi -->
+                <div class="floating-card p-8 sm:p-10 flex flex-col justify-between space-y-6">
+                    <div class="space-y-6">
+                        <div class="border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                            <span class="text-xs font-bold text-[#214963] dark:text-sky-400 uppercase font-serif tracking-widest">EKSTERNAL & NASIONAL</span>
+                            <h3 class="font-serif font-bold text-2xl sm:text-3xl text-[#18221b] dark:text-[#f0f5f1] mt-1">Layanan Resmi & Kontak Darurat</h3>
+                        </div>
+                        <div class="space-y-4">
+                            <!-- SAPA 129: Forest Green -->
+                            <div class="p-6 bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] rounded-2xl space-y-3">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <div>
+                                        <h4 class="font-serif font-bold text-xl sm:text-2xl text-[#18221b] dark:text-[#f0f5f1]">SAPA 129 (KemenPPPA)</h4>
+                                        <div class="text-2xl sm:text-3xl font-display font-bold text-[#234e38] dark:text-emerald-400 tracking-wider">HOTLINE 129</div>
+                                    </div>
+                                    <a href="tel:129" class="px-5 py-2.5 bg-[#234e38] text-white rounded-full text-xs font-sans hover:bg-[#1b3d2c] shadow-md flex items-center gap-1.5"><i class="fa-solid fa-phone"></i> Panggil 129</a>
+                                </div>
+                                <p class="text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Layanan Sahabat Perempuan dan Anak Kementerian PPPA. Bebas pulsa 24 jam atau WhatsApp di <strong>08111-129-129</strong>.</p>
+                            </div>
+
+                            <!-- Polisi 110: Midnight Slate Blue -->
+                            <div class="p-6 bg-[#ebf4fa] dark:bg-[#14202a] border border-[#c3daf0] dark:border-[#284458] rounded-2xl space-y-3">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <div>
+                                        <h4 class="font-serif font-bold text-xl sm:text-2xl text-[#18221b] dark:text-[#f0f5f1]">Kepolisian Republik Indonesia</h4>
+                                        <div class="text-2xl sm:text-3xl font-display font-bold text-[#214963] dark:text-sky-300 tracking-wider">DARURAT 110</div>
+                                    </div>
+                                    <a href="tel:110" class="px-5 py-2.5 bg-[#214963] text-white rounded-full text-xs font-sans hover:bg-[#18364b] shadow-md flex items-center gap-1.5"><i class="fa-solid fa-phone"></i> Panggil 110</a>
+                                </div>
+                                <p class="text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed">Hubungi layanan panggilan darurat kepolisian untuk keadaan terdesak atau bahaya fisik langsung.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom External Note -->
+                    <div class="p-4 rounded-xl bg-[#214963]/10 dark:bg-sky-950/30 border border-[#214963]/20 dark:border-sky-800/30 flex items-center gap-3 text-xs sm:text-sm text-[#214963] dark:text-sky-300">
+                        <i class="fa-solid fa-headset text-base shrink-0"></i>
+                        <span><strong>Akses 24 Jam:</strong> Layanan darurat eksternal siap siaga membantu kapan saja saat korban membutuhkan perlindungan hukum segera.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ================= PAGE 5: SAFEZONE SIMULATOR ================= -->
+        <div id="page-simulator" class="page-section hidden max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
+            
+            <div class="floating-card p-8 sm:p-12 text-center space-y-3 bg-gradient-to-r from-[#234e38]/10 via-[#214963]/10 to-transparent">
+                <span class="text-xs font-bold tracking-widest text-[#234e38] dark:text-emerald-400 uppercase font-serif">Simulasi Peran Interaktif</span>
+                <h1 class="font-serif font-bold text-4xl sm:text-5xl text-[#18221b] dark:text-[#f0f5f1]">SafeZone Visual Simulator</h1>
+                <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] max-w-2xl mx-auto">
+                    Hadapi dilema nyata di lingkungan sekolah & digital melalui cerita visual interaktif. Ambil tindakan bijak untuk menegakkan keadilan dan rasa aman bersama karakter berjiwa.
+                </p>
+            </div>
+
+            <!-- Simulator Master Stage -->
+            <div id="sim-container" class="max-w-5xl mx-auto floating-card p-6 sm:p-12 space-y-10 relative overflow-hidden">
+                
+                <!-- STEP 1: CHARACTER SELECTION WITH BOTH SOULFUL CHARACTERS -->
+                <div id="sim-step-avatar" class="space-y-10 text-center py-4">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold tracking-widest text-[#234e38] dark:text-emerald-400 uppercase font-serif">PILIH PERSPEKTIF KARAKTER</span>
+                        <h3 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1]">Pilih Karakter Utama</h3>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2]">Pilih perspektif karakter yang ingin kamu jalankan dalam simulasi:</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10 max-w-3xl mx-auto pt-2">
+                        
+                        <!-- Character 1: Rara (Forest Moss Dark Theme) -->
+                        <div class="p-8 rounded-3xl bg-[#faf7f0] dark:bg-[#131e18] border-2 border-[#cbd8cf] dark:border-[#2a4234] hover:border-[#234e38] dark:hover:border-emerald-500 hover:-translate-y-2 transition duration-300 space-y-5 text-center group shadow-md relative">
+                            
+                            <div onclick="openCharacterModal('Rara', '(Pelajar)', 'character inspo.jpg', 'Siswi berhati lembut yang menghadapi situasi mengejutkan di lorong sekolah dan pesan daring. Berani menegakkan batasan aman.')" class="relative w-40 h-40 mx-auto cursor-pointer" title="Klik untuk memperbesar karakter Rara">
+                                <div class="lace-doily-frame p-2.5 rounded-full w-full h-full char-aura-green">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-white border-2 border-[#769b82] shadow-inner relative">
+                                        <img src="character inspo.jpg" alt="Rara" class="w-full h-full object-cover char-breathe group-hover:scale-105 transition-transform duration-300">
+                                        <div class="absolute top-10 left-12 w-2.5 h-2.5 rounded-full bg-white twinkle-glint pointer-events-none shadow-sm"></div>
+                                    </div>
+                                </div>
+                                <span class="absolute -bottom-1 right-2 text-2xl char-sway" title="Empat daun semanggi">🍀</span>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <h4 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1]">Rara</h4>
+                                    <span class="text-xs text-[#234e38] dark:text-emerald-400 font-serif italic">(Pelajar)</span>
+                                </div>
+                                <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                                    Siswi berhati lembut yang menghadapi situasi mengejutkan di lorong sekolah dan pesan daring.
+                                </p>
+                            </div>
+
+                            <div class="flex items-center justify-center gap-2 pt-1">
+                                <button onclick="selectAvatar('female', 'Rara')" class="px-6 py-2.5 bg-[#234e38] hover:bg-[#1b3d2c] text-[#faf7f0] text-xs font-bold rounded-full shadow transition font-sans">
+                                    Pilih Rara <i class="fa-solid fa-arrow-right ml-1.5 text-[10px]"></i>
+                                </button>
+                                <button onclick="openCharacterModal('Rara', '(Pelajar)', 'character inspo.jpg', 'Siswi berhati lembut yang menghadapi situasi mengejutkan di lorong sekolah dan pesan daring.')" class="p-2.5 rounded-full bg-[#234e38]/10 hover:bg-[#234e38]/20 dark:bg-emerald-500/20 text-[#234e38] dark:text-emerald-300 text-xs transition" title="Perbesar Karakter">
+                                    <i class="fa-solid fa-magnifying-glass-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Character 2: Rian (Midnight Slate Blue Dark Theme) -->
+                        <div class="p-8 rounded-3xl bg-[#faf7f0] dark:bg-[#14202a] border-2 border-[#c3daf0] dark:border-[#284458] hover:border-[#214963] dark:hover:border-sky-500 hover:-translate-y-2 transition duration-300 space-y-5 text-center group shadow-md relative">
+                            
+                            <div onclick="openCharacterModal('Rian', '(Teman / Saksi)', 'character inspo boy.jpg', 'Siswa yang menyaksikan tindakan perundungan & pelecehan dan belajar mengintervensi dengan metode 5D secara aman.')" class="relative w-40 h-40 mx-auto cursor-pointer" title="Klik untuk memperbesar karakter Rian">
+                                <div class="lace-doily-frame p-2.5 rounded-full w-full h-full char-aura-green">
+                                    <div class="w-full h-full rounded-full overflow-hidden bg-white border-2 border-[#5b849e] shadow-inner relative">
+                                        <img src="character inspo boy.jpg" alt="Rian" class="w-full h-full object-cover char-breathe group-hover:scale-105 transition-transform duration-300">
+                                        <div class="absolute top-10 left-12 w-2.5 h-2.5 rounded-full bg-white twinkle-glint pointer-events-none shadow-sm"></div>
+                                    </div>
+                                </div>
+                                <span class="absolute -bottom-1 right-2 text-2xl char-sway" title="Empat daun semanggi">🍀</span>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <h4 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1]">Rian</h4>
+                                    <span class="text-xs text-[#214963] dark:text-sky-300 font-serif italic">(Teman / Saksi)</span>
+                                </div>
+                                <p class="text-xs text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                                    Siswa yang menyaksikan tindakan perundungan & pelecehan dan belajar mengintervensi dengan aman.
+                                </p>
+                            </div>
+
+                            <div class="flex items-center justify-center gap-2 pt-1">
+                                <button onclick="selectAvatar('male', 'Rian')" class="px-6 py-2.5 bg-[#214963] hover:bg-[#18364b] text-[#faf7f0] text-xs font-bold rounded-full shadow transition font-sans">
+                                    Pilih Rian <i class="fa-solid fa-arrow-right ml-1.5 text-[10px]"></i>
+                                </button>
+                                <button onclick="openCharacterModal('Rian', '(Teman / Saksi)', 'character inspo boy.jpg', 'Siswa yang menyaksikan tindakan perundungan & pelecehan dan belajar mengintervensi dengan aman.')" class="p-2.5 rounded-full bg-[#214963]/10 hover:bg-[#214963]/20 dark:bg-sky-500/20 text-[#214963] dark:text-sky-300 text-xs transition" title="Perbesar Karakter">
+                                    <i class="fa-solid fa-magnifying-glass-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- STEP 2: GAME SCENARIO STAGE WITH SOULFUL CHARACTER & DIALOGUE -->
+                <div id="sim-game-area" class="hidden space-y-8">
+                    
+                    <!-- Screen Header Stats -->
+                    <div class="flex items-center justify-between bg-[#edf6f0] dark:bg-[#16231c] p-4 sm:p-5 rounded-2xl border border-[#cbd8cf] dark:border-[#33463a]">
+                        <div class="flex items-center space-x-3.5">
+                            <div id="sim-avatar-badge" class="w-11 h-11 rounded-full bg-[#234e38] text-white flex items-center justify-center font-display font-bold text-lg shadow border border-emerald-900/30">
+                                R
+                            </div>
+                            <div>
+                                <h4 id="sim-player-name" class="font-serif font-bold text-base sm:text-lg text-[#18221b] dark:text-[#f0f5f1]">Karakter</h4>
+                                <span id="sim-scenario-tag" class="text-xs text-[#234e38] dark:text-emerald-400 uppercase tracking-widest font-semibold font-serif">Skenario 1</span>
+                            </div>
+                        </div>
+                        <div class="text-xs font-serif font-bold bg-[#faf7f0] dark:bg-[#101913] px-4 py-2 rounded-full text-[#234e38] dark:text-emerald-400 border border-[#cbd8cf] dark:border-[#33463a]" id="sim-progress-indicator">
+                            Skenario 1 dari 3
+                        </div>
+                    </div>
+
+                    <!-- VISUAL ROLEPLAY DIALOGUE STAGE -->
+                    <div class="bg-[#fcfaf6] dark:bg-[#17231c] p-6 sm:p-10 rounded-3xl border-2 border-[#cbd8cf] dark:border-[#33463a] shadow-sm space-y-8">
+                        
+                        <!-- Character Stage with Soulful Portrait & Speech Bubble -->
+                        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8 bg-[#f5ede0]/60 dark:bg-[#142018] p-6 sm:p-8 rounded-2xl border border-[#ded7c8] dark:border-[#2f4236] relative">
+                            
+                            <!-- Soulful Character Stage Canvas -->
+                            <div class="relative shrink-0 text-center space-y-2.5">
+                                <div class="lace-doily-frame p-2 rounded-3xl w-36 h-36 sm:w-44 sm:h-44 mx-auto char-aura-green bg-white dark:bg-[#121b15]">
+                                    <div id="sim-char-portrait-container" class="w-full h-full rounded-2xl overflow-hidden relative flex items-center justify-center bg-white border border-[#769b82]">
+                                        <img id="sim-char-img" src="character inspo.jpg" alt="Character" class="w-full h-full object-cover char-breathe">
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-0.5">
+                                    <span id="sim-char-label" class="inline-block px-3 py-0.5 bg-[#18221b] text-[#faf7f0] text-[10px] font-bold rounded-full font-serif uppercase tracking-wider">
+                                        Karakter
+                                    </span>
+                                    <div id="sim-char-mood" class="text-xs font-serif italic text-[#234e38] dark:text-emerald-400 font-semibold block">
+                                        « Merasa Risih & Waspada »
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Narrative Speech Bubble in Warm Parchment -->
+                            <div class="speech-bubble-green bg-[#ffffff] dark:bg-[#1b2720] p-6 sm:p-8 rounded-2xl border border-[#cbd8cf] dark:border-[#33463a] text-xs sm:text-sm text-[#18221b] dark:text-[#f0f5f1] w-full shadow-md space-y-3">
+                                <div class="flex items-center justify-between border-b border-[#ded7c8] dark:border-[#2f4236] pb-2">
+                                    <h4 id="sim-scenario-title" class="font-serif font-bold text-2xl text-[#234e38] dark:text-emerald-400">Judul Situasi</h4>
+                                    <span class="text-base text-emerald-600 dark:text-emerald-400"><i class="fa-solid fa-clover"></i></span>
+                                </div>
+                                <p id="sim-scenario-desc" class="leading-relaxed text-[#445347] dark:text-[#b4c9bb] text-sm sm:text-base font-serif italic">
+                                    Deskripsi narasi dialog...
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Multi-Choice Options -->
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-2 text-xs font-serif font-bold text-[#234e38] dark:text-emerald-400 uppercase tracking-widest">
+                                <i class="fa-solid fa-scale-balanced mr-1"></i>
+                                <span>Tindakan Apa yang Akan Kamu Ambil?</span>
+                            </div>
+                            <div id="sim-choices-container" class="grid grid-cols-1 gap-3.5">
+                                <!-- Choices dynamically generated via JavaScript -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- STEP 3: RESULT / OUTCOME SCREEN WITH CHARACTER REACTION -->
+                <div id="sim-result-area" class="hidden space-y-8 text-center py-6">
+                    
+                    <div class="max-w-xs mx-auto mb-2">
+                        <div class="w-32 h-32 mx-auto rounded-full lace-doily-frame p-2 overflow-hidden shadow-xl bg-white dark:bg-[#17231c]">
+                            <div id="sim-result-char-preview" class="w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+                                <img src="character inspo.jpg" alt="Reaction" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="sim-result-icon" class="w-16 h-16 mx-auto rounded-full flex items-center justify-center text-3xl shadow">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+
+                    <h3 id="sim-result-title" class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1]">Hasil Simulasi</h3>
+                    
+                    <div class="bg-[#edf6f0] dark:bg-[#16231c] p-6 sm:p-8 rounded-2xl border border-[#cbd8cf] dark:border-[#33463a] max-w-xl mx-auto text-left space-y-3 shadow-sm">
+                        <span class="text-xs font-serif font-bold uppercase tracking-wider text-[#234e38] dark:text-emerald-400 block border-b border-[#ded7c8] dark:border-[#2f4236] pb-1">
+                            Analisis Keputusan & Nilai Karakter:
+                        </span>
+                        <p id="sim-result-desc" class="text-xs sm:text-sm text-[#526056] dark:text-[#a0b5a6] leading-relaxed"></p>
+                    </div>
+
+                    <div class="pt-4 flex flex-wrap justify-center gap-4">
+                        <button onclick="restartSimulator()" class="px-7 py-3.5 bg-[#234e38] hover:bg-[#1b3d2c] text-white font-bold rounded-full transition shadow-md text-xs font-sans">
+                            <i class="fa-solid fa-rotate-right mr-2"></i> Lanjutkan / Coba Skenario Lain
+                        </button>
+                        <button onclick="switchPage('edukasi')" class="px-7 py-3.5 bg-[#faf7f0] dark:bg-[#1f2b23] text-[#18221b] dark:text-[#f0f5f1] font-bold rounded-full hover:bg-[#eae3d5] transition text-xs border border-[#cbd8cf] dark:border-[#384e40]">
+                            Pelajari Landasan Hukum
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ================= PAGE 6: WALL OF SUPPORT (VARIEGATED STICKY NOTES IN DARK & LIGHT) ================= -->
+        <div id="page-wall" class="page-section hidden max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
+            
+            <div class="floating-card p-8 sm:p-12 text-center space-y-3 bg-gradient-to-r from-[#234e38]/10 via-[#214963]/10 to-transparent">
+                <span class="text-xs font-bold tracking-widest text-[#234e38] dark:text-emerald-400 uppercase font-serif">Papan Solidaritas & Suara</span>
+                <h1 class="font-serif font-bold text-4xl sm:text-5xl text-[#18221b] dark:text-[#f0f5f1]">Wall of Support</h1>
+                <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] max-w-2xl mx-auto">Kirimkan pesan motivasi, dukungan kepada penyintas, atau suarakan semangat anti-pelecehan dalam bentuk sticky note!</p>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#234e38]/10 dark:bg-emerald-500/20 text-[#234e38] dark:text-emerald-300 text-xs font-bold mt-2">
+                    <i class="fa-solid fa-magnifying-glass-plus"></i> Klik sticky note mana pun untuk memperbesar dan membaca lebih nyaman
+                </div>
+            </div>
+
+            <!-- Form to Post Sticky Note -->
+            <div class="max-w-2xl mx-auto floating-card p-8 sm:p-10 space-y-5">
+                <h3 class="font-serif font-bold text-2xl text-[#18221b] dark:text-[#f0f5f1]">Tulis Pesan Dukunganmu</h3>
+                <form id="support-form" onsubmit="postStickyNote(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-serif font-bold text-[#5e6860] dark:text-[#8ea394] uppercase mb-1">Nama / Inisial</label>
+                        <input type="text" id="note-author" required placeholder="Contoh: Budi (Pelajar)" class="w-full px-4 py-3 border border-[#cbd8cf] dark:border-[#33463a] rounded-xl text-xs sm:text-sm focus:outline-none focus:border-[#234e38] dark:focus:border-emerald-500 bg-[#fcfaf6] dark:bg-[#17231c] dark:text-[#f0f5f1]">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-serif font-bold text-[#5e6860] dark:text-[#8ea394] uppercase mb-1">Pesan Motivasi / Speak Up</label>
+                        <textarea id="note-message" required rows="3" placeholder="Tulis pesan penyemangat atau suaramu di sini..." class="w-full px-4 py-3 border border-[#cbd8cf] dark:border-[#33463a] rounded-xl text-xs sm:text-sm focus:outline-none focus:border-[#234e38] dark:focus:border-emerald-500 bg-[#fcfaf6] dark:bg-[#17231c] dark:text-[#f0f5f1]"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-serif font-bold text-[#5e6860] dark:text-[#8ea394] uppercase mb-1">Pilihan Warna Kertas</label>
+                        <div class="flex space-x-3">
+                            <label class="cursor-pointer"><input type="radio" name="note-color" value="emerald" checked class="sr-only peer"><span class="block w-8 h-8 rounded-full bg-[#d1fae5] border-2 border-emerald-300 peer-checked:ring-2 peer-checked:ring-[#234e38]"></span></label>
+                            <label class="cursor-pointer"><input type="radio" name="note-color" value="blue" class="sr-only peer"><span class="block w-8 h-8 rounded-full bg-[#e0f2fe] border-2 border-sky-300 peer-checked:ring-2 peer-checked:ring-[#214963]"></span></label>
+                            <label class="cursor-pointer"><input type="radio" name="note-color" value="amber" class="sr-only peer"><span class="block w-8 h-8 rounded-full bg-[#fef3c7] border-2 border-amber-300 peer-checked:ring-2 peer-checked:ring-[#234e38]"></span></label>
+                            <label class="cursor-pointer"><input type="radio" name="note-color" value="sand" class="sr-only peer"><span class="block w-8 h-8 rounded-full bg-[#ede6da] border-2 border-[#caa673] peer-checked:ring-2 peer-checked:ring-[#234e38]"></span></label>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full py-3.5 bg-[#234e38] hover:bg-[#1b3d2c] text-white font-bold rounded-xl transition text-xs shadow-md font-sans">
+                        <i class="fa-solid fa-note-sticky mr-2"></i> Tempel di Wall of Support
+                    </button>
+                </form>
+            </div>
+
+            <!-- Sticky Notes Board (DISTINCT VIBRANT EARTH & PASTEL COLORS IN BOTH MODES) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-4" id="sticky-board">
+                
+                <!-- Preset Note 1: Emerald Green Note -->
+                <div onclick="openStickyNoteModal('Kamu tidak sendiri. Suarakan hakmu dan jangan pernah takut untuk mencari bantuan dari guru BK!', 'Helena Jonathan (XIIC2)', 'emerald')" class="sticky-note-card p-6 rounded-2xl bg-[#d1fae5] dark:bg-[#13271c] border border-emerald-300 dark:border-emerald-700/70 space-y-3 flex flex-col justify-between cursor-pointer group shadow-sm" title="Klik untuk memperbesar">
+                    <p class="text-xs sm:text-sm text-emerald-950 dark:text-emerald-100 font-serif leading-relaxed italic">« "Kamu tidak sendiri. Suarakan hakmu dan jangan pernah takut untuk mencari bantuan dari guru BK!" »</p>
+                    <div class="space-y-1 pt-2 border-t border-emerald-200/60 dark:border-emerald-700/60">
+                        <div class="text-[10px] text-emerald-900 dark:text-emerald-300 font-bold text-right font-serif">— Helena Jonathan (XIIC2)</div>
+                        <div class="text-[9px] text-emerald-800/70 dark:text-emerald-400/70 flex items-center justify-between font-sans pt-1">
+                            <span>Klik untuk perbesar</span>
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preset Note 2: Sky Blue Note -->
+                <div onclick="openStickyNoteModal('Mari kita jaga lingkungan sekolah agar bebas dari pelecehan verbal maupun fisik. Hak atas rasa aman adalah hak setiap pelajar.', 'Jolyne Lee (XIIC2)', 'blue')" class="sticky-note-card p-6 rounded-2xl bg-[#e0f2fe] dark:bg-[#132330] border border-sky-300 dark:border-sky-700/70 space-y-3 flex flex-col justify-between cursor-pointer group shadow-sm" title="Klik untuk memperbesar">
+                    <p class="text-xs sm:text-sm text-sky-950 dark:text-sky-100 font-serif leading-relaxed italic">« "Mari kita jaga lingkungan sekolah agar bebas dari pelecehan verbal maupun fisik. Hak atas rasa aman adalah hak setiap pelajar." »</p>
+                    <div class="space-y-1 pt-2 border-t border-sky-200/60 dark:border-sky-700/60">
+                        <div class="text-[10px] text-sky-900 dark:text-sky-300 font-bold text-right font-serif">— Jolyne Lee (XIIC2)</div>
+                        <div class="text-[9px] text-sky-800/70 dark:text-sky-400/70 flex items-center justify-between font-sans pt-1">
+                            <span>Klik untuk perbesar</span>
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preset Note 3: Warm Honey Amber Earth Note -->
+                <div onclick="openStickyNoteModal('Gunakan Metode 5D saat melihat teman mengalami pelecehan. Jangan diam saja, jadilah saksi yang berani!', 'SMAK St. Louis 1', 'amber')" class="sticky-note-card p-6 rounded-2xl bg-[#fef3c7] dark:bg-[#292214] border border-amber-300 dark:border-amber-700/70 space-y-3 flex flex-col justify-between cursor-pointer group shadow-sm" title="Klik untuk memperbesar">
+                    <p class="text-xs sm:text-sm text-amber-950 dark:text-amber-100 font-serif leading-relaxed italic">« "Gunakan Metode 5D saat melihat teman mengalami pelecehan. Jangan diam saja, jadilah saksi yang berani!" »</p>
+                    <div class="space-y-1 pt-2 border-t border-amber-200/60 dark:border-amber-700/60">
+                        <div class="text-[10px] text-amber-900 dark:text-amber-300 font-bold text-right font-serif">— SMAK St. Louis 1</div>
+                        <div class="text-[9px] text-amber-800/70 dark:text-amber-400/70 flex items-center justify-between font-sans pt-1">
+                            <span>Klik untuk perbesar</span>
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preset Note 4: Sand Taupe Earth Note -->
+                <div onclick="openStickyNoteModal('Cyber harassment itu nyata. Lindungi privasi dan jangan sebar konten sensitif tanpa persetujuan.', 'Komunitas Hakita', 'sand')" class="sticky-note-card p-6 rounded-2xl bg-[#ede6da] dark:bg-[#231f1a] border border-[#d2c4b0] dark:border-[#524738] space-y-3 flex flex-col justify-between cursor-pointer group shadow-sm" title="Klik untuk memperbesar">
+                    <p class="text-xs sm:text-sm text-stone-900 dark:text-stone-100 font-serif leading-relaxed italic">« "Cyber harassment itu nyata. Lindungi privasi dan jangan sebar konten sensitif tanpa persetujuan." »</p>
+                    <div class="space-y-1 pt-2 border-t border-[#d2c4b0]/60 dark:border-stone-700/60">
+                        <div class="text-[10px] text-stone-800 dark:text-stone-300 font-bold text-right font-serif">— Komunitas Hakita</div>
+                        <div class="text-[9px] text-stone-700/70 dark:text-stone-400/70 flex items-center justify-between font-sans pt-1">
+                            <span>Klik untuk perbesar</span>
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ================= PAGE 7: TENTANG HAKITA & SUMBER INFORMASI ================= -->
+        <div id="page-tentang" class="page-section hidden max-w-7xl mx-auto px-4 sm:px-8 space-y-16">
+            
+            <div class="floating-card p-8 sm:p-12 text-center space-y-3 bg-gradient-to-r from-[#234e38]/10 via-[#214963]/10 to-transparent">
+                <span class="text-xs font-bold tracking-widest text-[#234e38] dark:text-emerald-400 uppercase font-serif">Tentang Inisiatif</span>
+                <h1 class="font-serif font-bold text-4xl sm:text-5xl text-[#18221b] dark:text-[#f0f5f1]">Tentang Hakita & Sumber Informasi</h1>
+                <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] max-w-2xl mx-auto">Latar belakang projek Pendidikan Pancasila, profil tim pembuat, sumber rujukan, serta kebijakan privasi layanan.</p>
+            </div>
+
+            <!-- Tentang Hakita -->
+            <div class="floating-card p-8 sm:p-10 space-y-6">
+                <div class="border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                    <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 uppercase font-serif tracking-widest">PROJEK PANCASILA</span>
+                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1] mt-1">Tentang Hakita (Hak dan Kewajiban Kita)</h2>
+                </div>
+                <div class="space-y-4 text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                    <p><strong class="text-[#18221b] dark:text-[#f0f5f1]">Latar Belakang:</strong> Isu pelecehan seksual di lingkungan sekolah dan ruang digital masih sering diabaikan akibat stigma, ketakutan korban, serta minimnya pemahaman mengenai hak konstitusional atas rasa aman.</p>
+                    <p><strong class="text-[#18221b] dark:text-[#f0f5f1]">Tujuan Pembuatan:</strong> Meningkatkan kesadaran dan pemahaman pelajar serta masyarakat mengenai pencegahan pelecehan, prosedur pelaporan, serta tindakan tepat untuk menciptakan lingkungan belajar yang aman.</p>
+                    <p><strong class="text-[#18221b] dark:text-[#f0f5f1]">Masalah yang Diatasi:</strong> Stigma sosial, ketakutan korban untuk melapor (victim blaming), kurangnya edukasi mengenai hak asasi dalam UUD 1945, serta minimnya panduan intervensi saksi (Metode 5D).</p>
+                    <p><strong class="text-[#18221b] dark:text-[#f0f5f1]">Manfaat:</strong> Memberikan panduan praktis bagi pelajar, referensi hukum yang jelas, kanal pelaporan darurat resmi, serta wadah dukungan moral yang inklusif.</p>
+                </div>
+            </div>
+
+            <!-- Tim Pembuat (VARIEGATED CARDS: FOREST GREEN & SLATE BLUE) -->
+            <div class="floating-card p-8 sm:p-10 space-y-6">
+                <div class="border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                    <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 uppercase font-serif tracking-widest">KOLABORASI PENULIS</span>
+                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1] mt-1">Tim Pembuat Projek</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Helena: Forest Green Dark Card -->
+                    <div class="p-6 bg-[#edf6f0] dark:bg-[#131e18] border border-[#cbd8cf] dark:border-[#2a4234] rounded-2xl space-y-2 shadow-sm">
+                        <div class="w-12 h-12 bg-[#234e38] text-white rounded-xl flex items-center justify-center font-serif font-bold text-lg mb-3 shadow-sm">HJ</div>
+                        <h4 class="font-serif font-bold text-xl text-[#18221b] dark:text-[#f0f5f1]">Helena Jonathan</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2]">Kelas: XIIC2 | Nomor Absen: 17</p>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2]">Sekolah: SMA Katolik St. Louis 1 Surabaya</p>
+                    </div>
+
+                    <!-- Jolyne: Slate Blue Dark Card -->
+                    <div class="p-6 bg-[#ebf4fa] dark:bg-[#14202a] border border-[#c3daf0] dark:border-[#284458] rounded-2xl space-y-2 shadow-sm">
+                        <div class="w-12 h-12 bg-[#214963] text-white rounded-xl flex items-center justify-center font-serif font-bold text-lg mb-3 shadow-sm">JL</div>
+                        <h4 class="font-serif font-bold text-xl text-[#18221b] dark:text-[#f0f5f1]">Jolyne Lee</h4>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2]">Kelas: XIIC2 | Nomor Absen: 20</p>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2]">Sekolah: SMA Katolik St. Louis 1 Surabaya</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sumber & Referensi -->
+            <div class="floating-card p-8 sm:p-10 space-y-6">
+                <div class="border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                    <span class="text-xs font-bold text-[#234e38] dark:text-emerald-400 uppercase font-serif tracking-widest">BIBLIOGRAFI & DOKUMENTASI</span>
+                    <h2 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1] mt-1">Sumber dan Referensi</h2>
+                </div>
+                <ul class="space-y-3 text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2]">
+                    <li class="flex items-center space-x-2.5">
+                        <i class="fa-solid fa-book text-[#234e38] dark:text-emerald-400"></i>
+                        <span>Undang-Undang Dasar Negara Republik Indonesia Tahun 1945 (Pasal 28G & Pasal 28I).</span>
+                    </li>
+                    <li class="flex items-center space-x-2.5">
+                        <i class="fa-solid fa-globe text-[#214963] dark:text-sky-400"></i>
+                        <span>Situs Resmi Kementerian Pemberdayaan Perempuan dan Perlindungan Anak (KemenPPPA - kemenpppa.go.id).</span>
+                    </li>
+                    <li class="flex items-center space-x-2.5">
+                        <i class="fa-solid fa-globe text-[#234e38] dark:text-emerald-400"></i>
+                        <span>Situs Resmi Komnas Perempuan (komnasperempuan.go.id).</span>
+                    </li>
+                    <li class="flex items-center space-x-2.5">
+                        <i class="fa-solid fa-newspaper text-[#8c6b2d] dark:text-amber-400"></i>
+                        <span>Arsip Berita & Laporan Kasus Konkret Terverifikasi (Tribunnews, Jawa Pos, & Catatan Tahunan Komnas Perempuan).</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Kebijakan Privasi & Batasan Layanan -->
+            <div class="p-8 rounded-2xl bg-[#edf6f0]/70 dark:bg-[#131e18]/80 border border-[#cbd8cf] dark:border-[#2a4234] space-y-4">
+                <h3 class="font-serif font-bold text-lg text-[#18221b] dark:text-[#f0f5f1]">Kebijakan Privasi & Batasan Layanan</h3>
+                <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed">
+                    Hakita merupakan platform edukasi Pendidikan Pancasila. Platform ini tidak menggantikan layanan darurat formal, pendampingan hukum profesional, maupun lembaga penegak hukum resmi. Pengelolaan data di situs ini memprioritaskan privasi pengguna dan tidak menyimpan informasi sensitif pribadi.
+                </p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ================= FULLSCREEN FOOTER ================= -->
+    <footer class="w-full bg-[#152019] text-[#cbdad0] border-t border-[#2a3d31] px-6 sm:px-12 py-14 space-y-8 mt-auto z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-xs">
+            
+            <div class="space-y-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-[#234e38] text-white flex items-center justify-center font-display font-bold text-base">H</div>
+                    <span class="font-display font-bold text-lg text-[#faf7f0] tracking-wider">HAKITA</span>
+                </div>
+                <p class="text-[#8ea394] leading-relaxed">
+                    Suarakan Hakmu, Jaga Batasmu, Wujudkan Aman Bersama. Projek Pendidikan Pancasila SMA Katolik St. Louis 1 Surabaya.
+                </p>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="font-serif font-bold text-sm text-[#faf7f0] uppercase tracking-wider">Navigasi Vitrina</h4>
+                <ul class="space-y-2 text-[#8ea394]">
+                    <li><button onclick="switchPage('home')" class="hover:text-white transition">Beranda</button></li>
+                    <li><button onclick="switchPage('edukasi')" class="hover:text-white transition">Edukasi & Hukum</button></li>
+                    <li><button onclick="switchPage('panduan')" class="hover:text-white transition">Panduan Bertindak</button></li>
+                    <li><button onclick="switchPage('lapor')" class="hover:text-white transition">Prosedur Melapor</button></li>
+                    <li><button onclick="switchPage('simulator')" class="hover:text-white transition">SafeZone Simulator</button></li>
+                </ul>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="font-serif font-bold text-sm text-[#faf7f0] uppercase tracking-wider">Layanan Darurat</h4>
+                <ul class="space-y-2 text-[#8ea394]">
+                    <li>SAPA 129 KemenPPPA: <strong class="text-white">129 / 08111-129-129</strong></li>
+                    <li>Darurat Kepolisian: <strong class="text-white">110</strong></li>
+                    <li>Komnas Perempuan: <strong class="text-white">komnasperempuan.go.id</strong></li>
+                </ul>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="font-serif font-bold text-sm text-[#faf7f0] uppercase tracking-wider">Tim Pembuat</h4>
+                <p class="text-[#8ea394] leading-relaxed">
+                    Helena Jonathan (17) & Jolyne Lee (20)<br>
+                    Kelas XIIC2<br>
+                    SMA Katolik St. Louis 1 Surabaya
+                </p>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto border-t border-[#233529] pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#718577]">
+            <p>&copy; 2026 Hakita — Hak dan Kewajiban Kita. All rights reserved.</p>
+            <p class="mt-2 sm:mt-0 font-serif italic">Digital-vitrina Pendidikan Pancasila</p>
+        </div>
+    </footer>
+
+    <!-- ================= UNIVERSAL LIGHTBOX MODAL ================= -->
+    <div id="lightbox-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-md transition-all duration-300 opacity-0" onclick="closeLightbox(event)">
+        <div id="lightbox-content" class="relative max-w-xl w-full transform scale-95 transition-transform duration-300 shadow-2xl" onclick="event.stopPropagation()">
+            <!-- Dynamic Content injected via JS -->
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT APPLICATION LOGIC ================= -->
+    <script>
+        // Dark Mode Logic
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            const icon = document.getElementById('dark-mode-icon');
+            if (isDark) {
+                icon.className = "fa-solid fa-sun text-sm text-amber-300";
+            } else {
+                icon.className = "fa-solid fa-moon text-sm text-[#5e6860]";
+            }
+        }
+
+        // Page Router
+        function switchPage(pageId) {
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(p => p.classList.add('hidden'));
+            
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Update nav links styling
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('text-[#234e38]', 'font-bold', 'bg-[#234e38]/10', 'dark:text-emerald-400', 'dark:bg-emerald-500/15');
+                link.classList.add('text-[#5e6860]', 'dark:text-[#a0b5a6]');
+            });
+
+            const activeNav = document.getElementById('nav-' + pageId);
+            if (activeNav) {
+                activeNav.classList.remove('text-[#5e6860]', 'dark:text-[#a0b5a6]');
+                activeNav.classList.add('text-[#234e38]', 'font-bold', 'bg-[#234e38]/10', 'dark:text-emerald-400', 'dark:bg-emerald-500/15');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            menu.classList.toggle('hidden');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
+        }
+
+        // ================= UNIVERSAL LIGHTBOX MODAL FUNCTIONS =================
+        function openStickyNoteModal(text, author, colorKey) {
+            const modal = document.getElementById('lightbox-modal');
+            const content = document.getElementById('lightbox-content');
+            
+            let colorClasses = "bg-[#d1fae5] border-emerald-400 text-emerald-950 dark:bg-[#13271c] dark:border-emerald-600 dark:text-emerald-100";
+            let authorColor = "text-emerald-900 dark:text-emerald-300";
+            let tagText = "Pesan Dukungan • Emerald";
+
+            if (colorKey === 'blue') {
+                colorClasses = "bg-[#e0f2fe] border-sky-400 text-sky-950 dark:bg-[#132330] dark:border-sky-600 dark:text-sky-100";
+                authorColor = "text-sky-900 dark:text-sky-300";
+                tagText = "Pesan Dukungan • Sky Blue";
+            } else if (colorKey === 'amber') {
+                colorClasses = "bg-[#fef3c7] border-amber-400 text-amber-950 dark:bg-[#292214] dark:border-amber-600 dark:text-amber-100";
+                authorColor = "text-amber-900 dark:text-amber-300";
+                tagText = "Pesan Dukungan • Warm Amber";
+            } else if (colorKey === 'sand') {
+                colorClasses = "bg-[#ede6da] border-[#caa673] text-stone-900 dark:bg-[#231f1a] dark:border-[#7d674b] dark:text-stone-100";
+                authorColor = "text-stone-800 dark:text-stone-300";
+                tagText = "Pesan Dukungan • Sand Taupe";
+            }
+
+            content.innerHTML = `
+                <div class="p-8 sm:p-12 rounded-3xl border-2 ${colorClasses} relative space-y-6 shadow-2xl">
+                    <button onclick="closeLightbox(event)" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-black/10 hover:bg-black/20 dark:bg-white/10 dark:hover:bg-white/20 flex items-center justify-center text-lg transition duration-200" title="Tutup">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="flex items-center space-x-2 text-xs uppercase tracking-widest font-serif font-bold opacity-75">
+                        <i class="fa-solid fa-note-sticky"></i>
+                        <span>${tagText}</span>
+                    </div>
+                    <p class="font-serif italic text-xl sm:text-3xl leading-relaxed">« "${text}" »</p>
+                    <div class="text-base sm:text-lg font-serif font-bold text-right pt-4 border-t border-black/10 dark:border-white/10 ${authorColor}">— ${author}</div>
+                    <div class="text-[11px] text-center opacity-60 italic pt-2 font-sans">Klik di luar catatan atau tombol silang untuk menutup</div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            });
+        }
+
+        function openCharacterModal(name, role, imgSrc, desc) {
+            const modal = document.getElementById('lightbox-modal');
+            const content = document.getElementById('lightbox-content');
+            
+            content.innerHTML = `
+                <div class="p-8 sm:p-10 rounded-3xl border-2 border-[#234e38] dark:border-emerald-500 bg-[#faf7f0] dark:bg-[#15221a] text-[#18221b] dark:text-[#f0f5f1] relative space-y-6 shadow-2xl text-center">
+                    <button onclick="closeLightbox(event)" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-black/10 hover:bg-black/20 dark:bg-white/10 dark:hover:bg-white/20 flex items-center justify-center text-lg transition duration-200" title="Tutup">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="w-48 h-48 sm:w-56 sm:h-56 mx-auto rounded-full lace-doily-frame p-2.5 overflow-hidden shadow-xl bg-white dark:bg-[#0f1712]">
+                        <img src="${imgSrc}" alt="${name}" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex items-center justify-center space-x-2">
+                            <h3 class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1]">${name}</h3>
+                            <span class="text-sm font-serif italic text-[#234e38] dark:text-emerald-400 font-semibold">${role}</span>
+                        </div>
+                        <p class="text-sm text-[#526056] dark:text-[#a0b5a6] max-w-md mx-auto leading-relaxed pt-2">${desc}</p>
+                    </div>
+                    <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#234e38]/10 dark:bg-emerald-500/20 text-[#234e38] dark:text-emerald-300 text-xs font-bold font-serif">
+                        <span>🍀 Simbol Perlindungan & Empati Hakita</span>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            });
+        }
+
+        function openCaseStudyModal() {
+            const modal = document.getElementById('lightbox-modal');
+            const content = document.getElementById('lightbox-content');
+            
+            content.innerHTML = `
+                <div class="p-8 sm:p-10 rounded-3xl border-2 border-[#234e38] dark:border-emerald-500 bg-[#faf7f0] dark:bg-[#15221a] text-[#18221b] dark:text-[#f0f5f1] relative space-y-6 shadow-2xl max-w-2xl text-left">
+                    <button onclick="closeLightbox(event)" class="absolute top-5 right-5 w-10 h-10 rounded-full bg-black/10 hover:bg-black/20 dark:bg-white/10 dark:hover:bg-white/20 flex items-center justify-center text-lg transition duration-200" title="Tutup">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="space-y-2 border-b border-[#ded7c8] dark:border-[#2f4236] pb-4">
+                        <span class="text-xs font-serif font-bold uppercase tracking-wider text-[#234e38] dark:text-emerald-400">Berkas Perkara Terverifikasi N° 04/2024</span>
+                        <h3 class="font-serif font-bold text-2xl sm:text-3xl">Kasus: Penanganan Pelecehan Verbal & Daring di Sekolah</h3>
+                        <p class="text-xs text-[#526056] dark:text-[#9bb2a2]"><strong>Rujukan Resmi:</strong> Publikasi Media Nasional (Tribunnews & Jawa Pos) & Laporan Komnas Perempuan</p>
+                    </div>
+                    <div class="space-y-4 text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed max-h-[60vh] overflow-y-auto pr-2">
+                        <p><strong class="text-[#18221b] dark:text-[#f0f5f1] text-base block mb-1">1. Latar Belakang & Kronologi:</strong> Seorang siswi menghadapi pengiriman pesan digital tidak senonoh serta siulan berulang dari oknum di lingkungan sekolah saat jam istirahat. Korban sempat merasa takut untuk melapor karena khawatir diintimidasi oleh pelaku dan dicap "mencari perhatian".</p>
+                        <p><strong class="text-[#18221b] dark:text-[#f0f5f1] text-base block mb-1">2. Hak yang Terdampak:</strong> Hak atas rasa aman (Pasal 28G ayat 1), kehormatan pribadi, serta kenyamanan dalam mengenyam pendidikan tanpa diskriminasi.</p>
+                        <p><strong class="text-[#18221b] dark:text-[#f0f5f1] text-base block mb-1">3. Hambatan Pelaporan:</strong> Stigma sosial, ketakutan akan ancaman nilai akademik, dan minimnya saluran aduan yang menjamin kerahasiaan identitas.</p>
+                        <p><strong class="text-[#18221b] dark:text-[#f0f5f1] text-base block mb-1">4. Pelajaran & Solusi Teruji:</strong> Berkat keberanian korban melapor kepada Guru BK dengan pendampingan saksi menggunakan metode 5D, pihak sekolah segera memproses kasus sesuai SOP perlindungan anak, memberikan konseling psikologis, dan menjatuhkan sanksi tegas kepada pelaku.</p>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            });
+        }
+
+        function closeLightbox(event) {
+            if (event && event.target && event.target.id !== 'lightbox-modal' && !event.target.closest('button')) {
+                return;
+            }
+            const modal = document.getElementById('lightbox-modal');
+            const content = document.getElementById('lightbox-content');
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 250);
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // SafeZone Visual Simulator State & Logic
+        let simState = {
+            avatar: null,
+            name: '',
+            currentScenario: 1
+        };
+
+        // Scenarios with 4 realistic options
+        const scenarios = {
+            1: {
+                tag: "Skenario 1: Ruang Kelas & Istirahat",
+                title: "Siulan & Komentar Risih di Lorong Sekolah",
+                desc: "\"Aduhh Rara, hari ini rapi sekali sih... mau kemana kok cantik banget?\" Saat berjalan di lorong, beberapa teman sekelas bersiul keras dan melontarkan komentar bernuansa seksual yang membuatmu risih dan tidak nyaman.",
+                moodFemale: "« Merasa Risih & Waspada di Lorong »",
+                moodMale: "« Memperhatikan Situasi & Waspada »",
+                choices: [
+                    { 
+                        code: "A",
+                        text: "Tertawa canggung berpura-pura santai agar tidak merusak suasana atau dicap baperan.", 
+                        type: "bad",
+                        title: "Dilema: Menormalisasi Pelecehan Verbal",
+                        desc: "Meskipun niatmu menghindari konflik sosial, menertawakan atau membiarkan siulan bernuansa seksual akan dinormalisasi sebagai candaan biasa. Ini membuat pelaku berpotensi mengulanginya kepada orang lain." 
+                    },
+                    { 
+                        code: "B",
+                        text: "Membalas berteriak marah dengan kata-kata kasar secara emosional di depan umum.", 
+                        type: "neutral",
+                        title: "Risiko: Escalation (Eskalasi Konflik)",
+                        desc: "Merespons emosional secara agresif bisa memicu argumentasi balik dan situasi yang makin memanas di tempat umum tanpa menyelesaikan akar masalah penanganan." 
+                    },
+                    { 
+                        code: "C",
+                        text: "Menatap tegas dan menyampaikan singkat: 'Komentar seperti itu tidak sopan dan membuat saya risih', lalu pergi menjauh.", 
+                        type: "good",
+                        title: "Langkah Tepat: Set Boundary (Tegur Tegas)",
+                        desc: "Sangat baik! Menetapkan batasan (boundary) secara tenang dan tegas memperjelas bahwa tindakan tersebut tidak dapat diterima tanpa membahayakan dirimu." 
+                    },
+                    { 
+                        code: "D",
+                        text: "Diam saja, berjalan cepat, dan mencatat waktu kejadian untuk disampaikan kepada Guru BK.", 
+                        type: "good_alt",
+                        title: "Langkah Tepat: Pelaporan Bertahap",
+                        desc: "Sangat bijak! Jika merasa situasi sekitar kurang aman untuk menegur langsung, mengamankan diri dan mencatat kronologi untuk dilaporkan ke Guru BK adalah langkah aman." 
+                    }
+                ]
+            },
+            2: {
+                tag: "Skenario 2: Ruang Digital / Media Sosial",
+                title: "Pesan Daring (DM) yang Melampaui Batas",
+                desc: "\"Hai, foto kamu yang kemarin bagus banget, boleh dong kirim foto pribadi yang lebih polos?\". Kamu menerima pesan pribadi (DM) dari akun anonim dengan rayuan dan permintaan gambar yang merendahkan.",
+                moodFemale: "« Terkejut & Merasa Privasi Terancam »",
+                moodMale: "« Memeriksa Pesan Daring dengan Cermat »",
+                choices: [
+                    { 
+                        code: "A",
+                        text: "Membalas DM tersebut secara berpanjang lebar meminta penjelasan siapa pemilik akun.", 
+                        type: "bad",
+                        title: "Risiko: Membuka Ruang Manipulasi",
+                        desc: "Membalas akun anonim justru memberi ruang bagi pelaku untuk terus mengirimkan pesan manipulatif atau intimidasi lanjutan." 
+                    },
+                    { 
+                        code: "B",
+                        text: "Mengambil tangkapan layar (screenshot) sebagai bukti, lalu langsung memblokir dan melaporkan akun.", 
+                        type: "good",
+                        title: "Langkah Tepat: Dokumentasi & Proteksi Digital",
+                        desc: "Luar biasa! Menyimpan bukti berupa screenshot lalu memblokir akun adalah protokol keamanan digital terbaik untuk tindakan cyber harassment." 
+                    },
+                    { 
+                        code: "C",
+                        text: "Mengunggah tangkapan layar DM tersebut ke Story dengan menyebarkan tuduhan tanpa bukti akun yang jelas.", 
+                        type: "neutral",
+                        title: "Risiko: Kerumitan Privasi",
+                        desc: "Menyebarluaskan screenshot ke publik tanpa menyamarkan data bisa menimbulkan pencemaran nama baik atau konflik siber beruntun." 
+                    },
+                    { 
+                        code: "D",
+                        text: "Menghapus obrolan langsung karena merasa takut dan malu jika ada teman yang tahu.", 
+                        type: "bad_alt",
+                        title: "Kerugian: Kehilangan Bukti Penting",
+                        desc: "Rasa takut itu wajar, tetapi menghapus obrolan tanpa menyimpan screenshot membuatmu kehilangan bukti jika perilaku tersebut berulang." 
+                    }
+                ]
+            },
+            3: {
+                tag: "Skenario 3: Intervensi Saksi (Metode 5D)",
+                title: "Menyaksikan Perundungan & Pelecehan Teman",
+                desc: "Kamu melihat seorang teman sekelasmu (Siti) dipojokkan di dekat perpustakaan oleh dua siswa yang mengambil barangnya sambil melontarkan kalimat merendahkan. Siti tampak gemetar.",
+                moodFemale: "« Merasa Empati & Bertekad Membantu »",
+                moodMale: "« Menerapkan Metode 5D sebagai Saksi »",
+                choices: [
+                    { 
+                        code: "A",
+                        text: "Mendekati Siti dan berpura-pura menanyakan jadwal tugas kelompok untuk mengalihkan situasi (Distract).", 
+                        type: "good",
+                        title: "Metode 5D: Distract (Mengalihkan)",
+                        desc: "Hebat! Teknik Distract memutus ketegangan tanpa konfrontasi fisik langsung, memberi ruang bagi korban untuk keluar dari situasi berbahaya." 
+                    },
+                    { 
+                        code: "B",
+                        text: "Segera berlari memanggil Guru Piket atau Petugas Keamanan terdekat (Delegate).", 
+                        type: "good_alt",
+                        title: "Metode 5D: Delegate (Mendelegasikan)",
+                        desc: "Sangat bijak! Meminta bantuan otoritas sekolah memastikan penanganan dilakukan dengan aman dan memiliki wewenang formal." 
+                    },
+                    { 
+                        code: "C",
+                        text: "Merekam video kejadian dari jauh lalu membagikannya ke grup obrolan siswa tanpa persetujuan Siti.", 
+                        type: "bad",
+                        title: "Pelanggaran Privasi Korban",
+                        desc: "Menyebarkan video kejadian ke grup publik tanpa izin korban dapat memperparah trauma dan rasa malu yang dialami korban." 
+                    },
+                    { 
+                        code: "D",
+                        text: "Memilih tidak ikut campur karena takut akan jadi sasaran perundungan berikutnya.", 
+                        type: "bad_alt",
+                        title: "Dilema: Bystander Effect",
+                        desc: "Menjadi bystander pasif membiarkan pelaku merasa tindakannya dibenarkan. Padahal kamu bisa bertindak aman dengan melapor secara rahasia." 
+                    }
+                ]
+            }
+        };
+
+        function selectAvatar(type, name) {
+            simState.avatar = type;
+            simState.name = name;
+            
+            document.getElementById('sim-player-name').innerText = name + (type === 'female' ? ' (Pelajar)' : ' (Teman / Saksi)');
+            document.getElementById('sim-avatar-badge').innerText = name.charAt(0);
+            document.getElementById('sim-char-label').innerText = name;
+            
+            // Set up character portrait inside simulation (Rara = character inspo.jpg, Rian = character inspo boy.jpg)
+            const portraitContainer = document.getElementById('sim-char-portrait-container');
+            const resultCharPreview = document.getElementById('sim-result-char-preview');
+            
+            const imgSrc = (type === 'female') ? 'character inspo.jpg' : 'character inspo boy.jpg';
+            
+            portraitContainer.innerHTML = `<img src="${imgSrc}" alt="${name}" class="w-full h-full object-cover char-breathe">`;
+            resultCharPreview.innerHTML = `<img src="${imgSrc}" alt="${name}" class="w-full h-full object-cover">`;
+            
+            document.getElementById('sim-step-avatar').classList.add('hidden');
+            document.getElementById('sim-game-area').classList.remove('hidden');
+            loadScenario(1);
+        }
+
+        function loadScenario(num) {
+            simState.currentScenario = num;
+            const sc = scenarios[num];
+            
+            document.getElementById('sim-progress-indicator').innerText = "Skenario " + num + " dari 3";
+            document.getElementById('sim-scenario-tag').innerText = sc.tag;
+            document.getElementById('sim-scenario-title').innerText = sc.title;
+            document.getElementById('sim-scenario-desc').innerText = sc.desc;
+
+            // Update character emotion text
+            const moodTag = document.getElementById('sim-char-mood');
+            if (simState.avatar === 'female') {
+                moodTag.innerText = sc.moodFemale;
+            } else {
+                moodTag.innerText = sc.moodMale;
+            }
+
+            const container = document.getElementById('sim-choices-container');
+            container.innerHTML = '';
+
+            sc.choices.forEach((choice, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 sm:p-5 rounded-2xl border border-[#cbd8cf] dark:border-[#33463a] bg-[#ffffff] dark:bg-[#1b2720] hover:bg-[#edf6f0] dark:hover:bg-[#23352a] hover:border-[#234e38] dark:hover:border-emerald-500 transition duration-200 flex items-start justify-between text-xs sm:text-sm text-[#18221b] dark:text-[#f0f5f1] font-medium group shadow-sm";
+                btn.innerHTML = `
+                    <div class="flex items-start space-x-3.5">
+                        <span class="w-7 h-7 rounded-full bg-[#234e38]/15 dark:bg-emerald-500/20 text-[#234e38] dark:text-emerald-400 font-serif flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-[#234e38]/30">${choice.code}</span>
+                        <span class="leading-relaxed font-sans">${choice.text}</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-[#96a89c] group-hover:text-[#234e38] dark:group-hover:text-emerald-400 transition mt-1 ml-2"></i>
+                `;
+                btn.onclick = () => handleChoice(choice, num);
+                container.appendChild(btn);
+            });
+        }
+
+        function handleChoice(selectedChoice, currentNum) {
+            document.getElementById('sim-game-area').classList.add('hidden');
+            document.getElementById('sim-result-area').classList.remove('hidden');
+
+            const icon = document.getElementById('sim-result-icon');
+            const title = document.getElementById('sim-result-title');
+            const desc = document.getElementById('sim-result-desc');
+
+            title.innerText = selectedChoice.title;
+            desc.innerText = selectedChoice.desc;
+
+            if (selectedChoice.type === 'good' || selectedChoice.type === 'good_alt') {
+                icon.className = "w-16 h-16 mx-auto rounded-full flex items-center justify-center text-3xl bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border-2 border-emerald-400 shadow";
+                icon.innerHTML = '<i class="fa-solid fa-shield-halved"></i>';
+            } else if (selectedChoice.type === 'neutral') {
+                icon.className = "w-16 h-16 mx-auto rounded-full flex items-center justify-center text-3xl bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border-2 border-amber-400 shadow";
+                icon.innerHTML = '<i class="fa-solid fa-scale-balanced"></i>';
+            } else {
+                icon.className = "w-16 h-16 mx-auto rounded-full flex items-center justify-center text-3xl bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border-2 border-rose-400 shadow";
+                icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+            }
+        }
+
+        function restartSimulator() {
+            if (simState.currentScenario < 3) {
+                document.getElementById('sim-result-area').classList.add('hidden');
+                document.getElementById('sim-game-area').classList.remove('hidden');
+                loadScenario(simState.currentScenario + 1);
+            } else {
+                simState.avatar = null;
+                simState.name = '';
+                simState.currentScenario = 1;
+                document.getElementById('sim-result-area').classList.add('hidden');
+                document.getElementById('sim-step-avatar').classList.remove('hidden');
+            }
+        }
+
+        // Wall of Support: Post Sticky Note Function
+        function postStickyNote(event) {
+            event.preventDefault();
+            const authorInput = document.getElementById('note-author');
+            const messageInput = document.getElementById('note-message');
+            const selectedColor = document.querySelector('input[name="note-color"]:checked')?.value || 'emerald';
+
+            const author = authorInput.value.trim();
+            const message = messageInput.value.trim();
+
+            if (!author || !message) return;
+
+            let bgClass = "bg-[#d1fae5] dark:bg-[#13271c] border-emerald-300 dark:border-emerald-700/70 text-emerald-950 dark:text-emerald-100";
+            let authorClass = "text-emerald-900 dark:text-emerald-300";
+            let borderSubClass = "border-emerald-200/60 dark:border-emerald-700/60";
+            let textSubClass = "text-emerald-800/70 dark:text-emerald-400/70";
+
+            if (selectedColor === 'blue') {
+                bgClass = "bg-[#e0f2fe] dark:bg-[#132330] border-sky-300 dark:border-sky-700/70 text-sky-950 dark:text-sky-100";
+                authorClass = "text-sky-900 dark:text-sky-300";
+                borderSubClass = "border-sky-200/60 dark:border-sky-700/60";
+                textSubClass = "text-sky-800/70 dark:text-sky-400/70";
+            } else if (selectedColor === 'amber') {
+                bgClass = "bg-[#fef3c7] dark:bg-[#292214] border-amber-300 dark:border-amber-700/70 text-amber-950 dark:text-amber-100";
+                authorClass = "text-amber-900 dark:text-amber-300";
+                borderSubClass = "border-amber-200/60 dark:border-amber-700/60";
+                textSubClass = "text-amber-800/70 dark:text-amber-400/70";
+            } else if (selectedColor === 'sand') {
+                bgClass = "bg-[#ede6da] dark:bg-[#231f1a] border-[#d2c4b0] dark:border-[#524738] text-stone-900 dark:text-stone-100";
+                authorClass = "text-stone-800 dark:text-stone-300";
+                borderSubClass = "border-[#d2c4b0]/60 dark:border-stone-700/60";
+                textSubClass = "text-stone-700/70 dark:text-stone-400/70";
+            }
+
+            const board = document.getElementById('sticky-board');
+            const newNote = document.createElement('div');
+            newNote.className = `sticky-note-card p-6 rounded-2xl border ${bgClass} space-y-3 flex flex-col justify-between cursor-pointer group shadow-sm`;
+            newNote.title = "Klik untuk memperbesar";
+            newNote.onclick = () => openStickyNoteModal(message, author, selectedColor);
+            newNote.innerHTML = `
+                <p class="text-xs sm:text-sm font-serif leading-relaxed italic">« "${message}" »</p>
+                <div class="space-y-1 pt-2 border-t ${borderSubClass}">
+                    <div class="text-[10px] ${authorClass} font-bold text-right font-serif">— ${author}</div>
+                    <div class="text-[9px] ${textSubClass} flex items-center justify-between font-sans pt-1">
+                        <span>Klik untuk perbesar</span>
+                        <i class="fa-solid fa-magnifying-glass-plus"></i>
+                    </div>
+                </div>
+            `;
+
+            // Insert new sticky note at the top of the board
+            board.insertBefore(newNote, board.firstChild);
+
+            // Reset form
+            authorInput.value = '';
+            messageInput.value = '';
+
+            // Open the modal right away to preview their note!
+            openStickyNoteModal(message, author, selectedColor);
+        }
+    </script>
+</body>
+</html>
