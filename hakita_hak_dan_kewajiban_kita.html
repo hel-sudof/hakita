@@ -1127,8 +1127,8 @@
                 <!-- STEP 2: GAME SCENARIO STAGE WITH SOULFUL CHARACTER & DIALOGUE -->
                 <div id="sim-game-area" class="hidden space-y-8">
                     
-                    <!-- Screen Header Stats -->
-                    <div class="flex items-center justify-between bg-[#edf6f0] dark:bg-[#16231c] p-4 sm:p-5 rounded-2xl border border-[#cbd8cf] dark:border-[#33463a]">
+                    <!-- Screen Header Stats with Leave Game Option -->
+                    <div class="flex items-center justify-between bg-[#edf6f0] dark:bg-[#16231c] p-4 sm:p-5 rounded-2xl border border-[#cbd8cf] dark:border-[#33463a] gap-3 flex-wrap sm:flex-nowrap">
                         <div class="flex items-center space-x-3.5">
                             <div id="sim-avatar-badge" class="w-11 h-11 rounded-full bg-[#234e38] text-white flex items-center justify-center font-display font-bold text-lg shadow border border-emerald-900/30">
                                 R
@@ -1138,8 +1138,14 @@
                                 <span id="sim-scenario-tag" class="text-xs text-[#234e38] dark:text-emerald-400 uppercase tracking-widest font-semibold font-serif">Skenario 1</span>
                             </div>
                         </div>
-                        <div class="text-xs font-serif font-bold bg-[#faf7f0] dark:bg-[#101913] px-4 py-2 rounded-full text-[#234e38] dark:text-emerald-400 border border-[#cbd8cf] dark:border-[#33463a]" id="sim-progress-indicator">
-                            Skenario 1 dari 3
+                        <div class="flex items-center gap-2.5">
+                            <div class="text-xs font-serif font-bold bg-[#faf7f0] dark:bg-[#101913] px-3.5 py-2 rounded-full text-[#234e38] dark:text-emerald-400 border border-[#cbd8cf] dark:border-[#33463a]" id="sim-progress-indicator">
+                                Skenario 1 dari 3
+                            </div>
+                            <button onclick="confirmLeaveSimulation()" class="px-3.5 py-2 rounded-full bg-[#faece8] dark:bg-[#291b17] hover:bg-[#f3d4cb] dark:hover:bg-[#3d2720] text-[#9b381e] dark:text-rose-300 border border-[#ecc1b6] dark:border-[#5c382e] text-xs font-serif font-bold transition flex items-center gap-1.5 shadow-sm" title="Keluar dari simulasi">
+                                <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+                                <span>Keluar Permainan</span>
+                            </button>
                         </div>
                     </div>
 
@@ -1188,6 +1194,15 @@
                             <div id="sim-choices-container" class="grid grid-cols-1 gap-3.5">
                                 <!-- Choices dynamically generated via JavaScript -->
                             </div>
+                            
+                            <!-- Leave Game Inline Option -->
+                            <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-[#ded7c8] dark:border-[#2f4236] text-xs">
+                                <span class="text-[#726757] dark:text-[#9bb2a2] italic">Tidak ingin melanjutkan skenario ini atau ingin ganti peran?</span>
+                                <button onclick="confirmLeaveSimulation()" class="px-4 py-2 rounded-full bg-[#faf7f0] dark:bg-[#18231c] hover:bg-[#faece8] dark:hover:bg-[#291b17] text-[#9b381e] dark:text-rose-300 border border-[#ded7c8] dark:border-[#5c382e] font-serif font-bold transition flex items-center gap-2 shadow-sm">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                    <span>Berhenti / Keluar Game</span>
+                                </button>
+                            </div>
                         </div>
 
                     </div>
@@ -1220,6 +1235,9 @@
                     <div class="pt-4 flex flex-wrap justify-center gap-4">
                         <button onclick="restartSimulator()" class="px-7 py-3.5 bg-[#234e38] hover:bg-[#1b3d2c] text-white font-bold rounded-full transition shadow-md text-xs font-sans">
                             <i class="fa-solid fa-rotate-right mr-2"></i> Lanjutkan / Coba Skenario Lain
+                        </button>
+                        <button onclick="leaveSimulation()" class="px-7 py-3.5 bg-[#faece8] dark:bg-[#291b17] hover:bg-[#f3d4cb] dark:hover:bg-[#3d2720] text-[#9b381e] dark:text-rose-300 font-bold rounded-full transition text-xs border border-[#ecc1b6] dark:border-[#5c382e] shadow-sm">
+                            <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Keluar / Ganti Karakter
                         </button>
                         <button onclick="switchPage('edukasi')" class="px-7 py-3.5 bg-[#faf7f0] dark:bg-[#1f2b23] text-[#18221b] dark:text-[#f0f5f1] font-bold rounded-full hover:bg-[#eae3d5] transition text-xs border border-[#cbd8cf] dark:border-[#384e40]">
                             Pelajari Landasan Hukum
@@ -1859,6 +1877,61 @@
                 simState.currentScenario = 1;
                 document.getElementById('sim-result-area').classList.add('hidden');
                 document.getElementById('sim-step-avatar').classList.remove('hidden');
+            }
+        }
+
+        // Leave / Quit Simulation Handlers
+        function confirmLeaveSimulation() {
+            const modal = document.getElementById('lightbox-modal');
+            const content = document.getElementById('lightbox-content');
+            
+            content.innerHTML = `
+                <div class="p-8 sm:p-10 rounded-3xl bg-[#faf7f0] dark:bg-[#18231c] border-2 border-[#cbd8cf] dark:border-[#33463a] text-center space-y-6 shadow-2xl relative">
+                    <button onclick="closeLightbox()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 text-[#18221b] dark:text-white flex items-center justify-center transition" title="Tutup">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="w-16 h-16 mx-auto rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 flex items-center justify-center text-2xl border border-rose-300 dark:border-rose-800 shadow-sm">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-[#9b381e] dark:text-rose-400 uppercase font-serif tracking-widest">KONFIRMASI SIMULASI</span>
+                        <h3 class="font-serif font-bold text-2xl sm:text-3xl text-[#18221b] dark:text-[#f0f5f1]">Keluar dari Permainan?</h3>
+                        <p class="text-xs sm:text-sm text-[#526056] dark:text-[#9bb2a2] leading-relaxed max-w-md mx-auto">
+                            Kamu sedang berada di tengah skenario simulasi. Jika keluar sekarang, permainan akan dihentikan dan kamu dapat memilih karakter lain atau menjelajahi materi Hakita lainnya.
+                        </p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                        <button onclick="closeLightbox()" class="w-full sm:w-auto px-6 py-3 rounded-full bg-[#234e38] text-white hover:bg-[#1b3d2c] text-xs font-bold transition shadow-md">
+                            Lanjutkan Bermain
+                        </button>
+                        <button onclick="leaveSimulation()" class="w-full sm:w-auto px-6 py-3 rounded-full bg-[#faece8] dark:bg-[#291b17] hover:bg-[#f3d4cb] dark:hover:bg-[#3d2720] text-[#9b381e] dark:text-rose-300 border border-[#ecc1b6] dark:border-[#5c382e] text-xs font-bold transition">
+                            Ya, Keluar Game
+                        </button>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            });
+        }
+
+        function leaveSimulation() {
+            closeLightbox();
+            simState.avatar = null;
+            simState.name = '';
+            simState.currentScenario = 1;
+            
+            document.getElementById('sim-game-area').classList.add('hidden');
+            document.getElementById('sim-result-area').classList.add('hidden');
+            document.getElementById('sim-step-avatar').classList.remove('hidden');
+            
+            const container = document.getElementById('sim-container');
+            if (container) {
+                container.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
