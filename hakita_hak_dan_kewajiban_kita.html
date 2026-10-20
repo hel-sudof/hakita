@@ -1047,7 +1047,7 @@
             </div>
 
             <!-- Simulator Master Stage -->
-            <div id="sim-container" class="max-w-5xl mx-auto floating-card p-6 sm:p-12 space-y-10 relative overflow-hidden">
+            <div id="sim-container" class="max-w-5xl mx-auto floating-card p-6 sm:p-12 space-y-10 relative overflow-hidden scroll-mt-24">
                 
                 <!-- STEP 1: CHARACTER SELECTION WITH BOTH SOULFUL CHARACTERS -->
                 <div id="sim-step-avatar" class="space-y-10 text-center py-4">
@@ -1899,6 +1899,21 @@
             }
         };
 
+        function scrollSimulatorToTop() {
+            requestAnimationFrame(() => {
+                const container = document.getElementById('sim-container');
+                if (container) {
+                    const headerOffset = 90;
+                    const elementPosition = container.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                        top: Math.max(0, offsetPosition),
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+
         function selectAvatar(type, name) {
             simState.avatar = type;
             simState.name = name;
@@ -1920,6 +1935,7 @@
             document.getElementById('sim-step-avatar').classList.add('hidden');
             document.getElementById('sim-game-area').classList.remove('hidden');
             loadScenario(1);
+            scrollSimulatorToTop();
         }
 
         function loadScenario(num) {
@@ -1984,6 +2000,9 @@
                 icon.className = "w-16 h-16 mx-auto rounded-full flex items-center justify-center text-3xl bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border-2 border-rose-400 shadow";
                 icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
             }
+
+            // Smooth scroll directly to the top of simulator result card
+            scrollSimulatorToTop();
         }
 
         function restartSimulator() {
@@ -1991,12 +2010,14 @@
                 document.getElementById('sim-result-area').classList.add('hidden');
                 document.getElementById('sim-game-area').classList.remove('hidden');
                 loadScenario(simState.currentScenario + 1);
+                scrollSimulatorToTop();
             } else {
                 simState.avatar = null;
                 simState.name = '';
                 simState.currentScenario = 1;
                 document.getElementById('sim-result-area').classList.add('hidden');
                 document.getElementById('sim-step-avatar').classList.remove('hidden');
+                scrollSimulatorToTop();
             }
         }
 
@@ -2049,10 +2070,7 @@
             document.getElementById('sim-result-area').classList.add('hidden');
             document.getElementById('sim-step-avatar').classList.remove('hidden');
             
-            const container = document.getElementById('sim-container');
-            if (container) {
-                container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            scrollSimulatorToTop();
         }
 
         // Wall of Support: Post Sticky Note Function
