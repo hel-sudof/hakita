@@ -1187,7 +1187,7 @@
                     <div class="bg-[#fcfaf6] dark:bg-[#17231c] p-6 sm:p-10 rounded-3xl border-2 border-[#cbd8cf] dark:border-[#33463a] shadow-sm space-y-8">
                         
                         <!-- Character Stage with Soulful Portrait & Speech Bubble -->
-                        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8 bg-[#f5ede0]/60 dark:bg-[#142018] p-6 sm:p-8 rounded-2xl border border-[#ded7c8] dark:border-[#2f4236] relative">
+                        <div id="sim-question-focus" class="scroll-mt-24 flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8 bg-[#f5ede0]/60 dark:bg-[#142018] p-6 sm:p-8 rounded-2xl border border-[#ded7c8] dark:border-[#2f4236] relative">
                             
                             <!-- Soulful Character Stage Canvas -->
                             <div class="relative shrink-0 text-center space-y-2.5">
@@ -1966,6 +1966,21 @@
             });
         }
 
+        function scrollToQuestion() {
+            requestAnimationFrame(() => {
+                const target = document.getElementById('sim-question-focus') || document.getElementById('sim-scenario-title') || document.getElementById('sim-game-area');
+                if (target) {
+                    const headerOffset = 90;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                        top: Math.max(0, offsetPosition),
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+
         function selectAvatar(type, name) {
             simState.avatar = type;
             simState.name = name;
@@ -1985,9 +2000,13 @@
             resultCharPreview.innerHTML = `<img src="${imgSrc}" alt="${name}" class="w-full h-full object-cover">`;
             
             document.getElementById('sim-step-avatar').classList.add('hidden');
-            document.getElementById('sim-game-area').classList.remove('hidden');
+            const gameArea = document.getElementById('sim-game-area');
+            gameArea.classList.remove('hidden');
+            gameArea.classList.remove('outcome-animate');
+            void gameArea.offsetWidth;
+            gameArea.classList.add('outcome-animate');
             loadScenario(1);
-            scrollSimulatorToTop();
+            scrollToQuestion();
         }
 
         function loadScenario(num) {
@@ -2064,9 +2083,13 @@
         function restartSimulator() {
             if (simState.currentScenario < 3) {
                 document.getElementById('sim-result-area').classList.add('hidden');
-                document.getElementById('sim-game-area').classList.remove('hidden');
+                const gameArea = document.getElementById('sim-game-area');
+                gameArea.classList.remove('hidden');
+                gameArea.classList.remove('outcome-animate');
+                void gameArea.offsetWidth;
+                gameArea.classList.add('outcome-animate');
                 loadScenario(simState.currentScenario + 1);
-                scrollSimulatorToTop();
+                scrollToQuestion();
             } else {
                 simState.avatar = null;
                 simState.name = '';
