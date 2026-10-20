@@ -257,6 +257,36 @@
         .dove-soar:hover {
             transform: translate(6px, -4px) scale(1.05);
         }
+
+        /* Smooth Page Transition Animation */
+        @keyframes pageFadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .page-fade-in {
+            animation: pageFadeInUp 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Simulator Outcome Pop Animation */
+        @keyframes outcomeSmoothFade {
+            from {
+                opacity: 0;
+                transform: scale(0.98) translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .outcome-animate {
+            animation: outcomeSmoothFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
     </style>
 </head>
 <body class="selection:bg-emerald-200 selection:text-emerald-900 dark:selection:bg-emerald-900 dark:selection:text-emerald-100 flex flex-col min-h-screen">
@@ -1223,17 +1253,19 @@
                         </div>
                     </div>
 
-                    <div id="sim-result-icon" class="w-16 h-16 mx-auto rounded-full flex items-center justify-center text-3xl shadow">
-                        <i class="fa-solid fa-award"></i>
-                    </div>
+                    <div id="sim-outcome-focus" class="scroll-mt-24 space-y-6">
+                        <div id="sim-result-icon" class="w-16 h-16 mx-auto rounded-full flex items-center justify-center text-3xl shadow">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
 
-                    <h3 id="sim-result-title" class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1]">Hasil Simulasi</h3>
-                    
-                    <div class="bg-[#edf6f0] dark:bg-[#16231c] p-6 sm:p-8 rounded-2xl border border-[#cbd8cf] dark:border-[#33463a] max-w-xl mx-auto text-left space-y-3 shadow-sm">
-                        <span class="text-xs font-serif font-bold uppercase tracking-wider text-[#234e38] dark:text-emerald-400 block border-b border-[#ded7c8] dark:border-[#2f4236] pb-1">
-                            Analisis Keputusan & Nilai Karakter:
-                        </span>
-                        <p id="sim-result-desc" class="text-xs sm:text-sm text-[#526056] dark:text-[#a0b5a6] leading-relaxed"></p>
+                        <h3 id="sim-result-title" class="font-serif font-bold text-3xl sm:text-4xl text-[#18221b] dark:text-[#f0f5f1]">Hasil Simulasi</h3>
+                        
+                        <div class="bg-[#edf6f0] dark:bg-[#16231c] p-6 sm:p-8 rounded-2xl border border-[#cbd8cf] dark:border-[#33463a] max-w-xl mx-auto text-left space-y-3 shadow-sm">
+                            <span class="text-xs font-serif font-bold uppercase tracking-wider text-[#234e38] dark:text-emerald-400 block border-b border-[#ded7c8] dark:border-[#2f4236] pb-1">
+                                Analisis Keputusan & Nilai Karakter:
+                            </span>
+                            <p id="sim-result-desc" class="text-xs sm:text-sm text-[#526056] dark:text-[#a0b5a6] leading-relaxed"></p>
+                        </div>
                     </div>
 
                     <div class="pt-4 flex flex-wrap justify-center gap-4">
@@ -1502,14 +1534,19 @@
             }
         }
 
-        // Page Router
+        // Page Router with Smooth Animation
         function switchPage(pageId) {
             const pages = document.querySelectorAll('.page-section');
-            pages.forEach(p => p.classList.add('hidden'));
+            pages.forEach(p => {
+                p.classList.add('hidden');
+                p.classList.remove('page-fade-in');
+            });
             
             const targetPage = document.getElementById('page-' + pageId);
             if (targetPage) {
                 targetPage.classList.remove('hidden');
+                void targetPage.offsetWidth; // Trigger reflow for fresh animation
+                targetPage.classList.add('page-fade-in');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
@@ -1914,6 +1951,21 @@
             });
         }
 
+        function scrollToOutcome() {
+            requestAnimationFrame(() => {
+                const target = document.getElementById('sim-outcome-focus') || document.getElementById('sim-result-icon');
+                if (target) {
+                    const headerOffset = 90;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                        top: Math.max(0, offsetPosition),
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+
         function selectAvatar(type, name) {
             simState.avatar = type;
             simState.name = name;
@@ -1972,7 +2024,11 @@
 
         function handleChoice(selectedChoice, currentNum) {
             document.getElementById('sim-game-area').classList.add('hidden');
-            document.getElementById('sim-result-area').classList.remove('hidden');
+            const resultArea = document.getElementById('sim-result-area');
+            resultArea.classList.remove('hidden');
+            resultArea.classList.remove('outcome-animate');
+            void resultArea.offsetWidth;
+            resultArea.classList.add('outcome-animate');
 
             const icon = document.getElementById('sim-result-icon');
             const title = document.getElementById('sim-result-title');
@@ -2001,8 +2057,8 @@
                 icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
             }
 
-            // Smooth scroll directly to the top of simulator result card
-            scrollSimulatorToTop();
+            // Smooth scroll directly to the 5D outcome title and analysis section
+            scrollToOutcome();
         }
 
         function restartSimulator() {
